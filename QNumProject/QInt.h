@@ -13,9 +13,16 @@ public:
 	int getBit(int pos);
 	void setBit(int value, int pos);
 
-	 
+	//Hàm nhập xuất
 	void ScanQInt();
 	void PrintQInt();
+	//operator
+	bool operator>(QInt a);
+	bool operator<(QInt a);
+	bool operator==(QInt a);
+	bool operator>=(QInt a);
+	bool operator<=(QInt a);
+	void operator=(QInt a);
 	//Hàm xử lý
 	int HalfString(string& a);
 

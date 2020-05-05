@@ -51,6 +51,105 @@ QInt::QInt(int a)
 
 }
 
+//Operator
+bool QInt::operator>(QInt a)
+{
+	for (int i = 127; i >= 0; i--)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x > y)
+		{
+			return true;
+		}
+		else if (x < y)
+		{
+			return false;
+		}
+	}
+	return false;
+}
+
+bool QInt::operator<(QInt a)
+{
+	for (int i = 127; i >= 0; i--)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x < y)
+		{
+			return true;
+		}
+		else if (x > y)
+		{
+			return false;
+		}
+	}
+	return false;
+}
+
+bool QInt::operator==(QInt a)
+{
+	for (int i = 127; i >= 0; i--)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x > y)
+		{
+			return false;
+		}
+		else if (x < y)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool QInt::operator>=(QInt a)
+{
+	for (int i = 127; i >= 0; i--)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x > y)
+		{
+			return true;
+		}
+		else if (x < y)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+bool QInt::operator<=(QInt a)
+{
+	for (int i = 127; i >= 0; i--)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x < y)
+		{
+			return true;
+		}
+		else if (x > y)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void QInt::operator=(QInt a)
+{
+	for (int i = 0; i < 128; i++)
+	{
+		int bit = a.getBit(i);
+		setBit(bit, i);
+	}
+}
 //Hàm nhập
 void QInt::ScanQInt()
 {
