@@ -7,21 +7,15 @@ void main()
 	a.ScanQInt();
 	QInt b;
 	b.ScanQInt();
-	if (a == b)
+	QInt c;
+	c = ~a;
+	for (int i = 127; i >= 0; i--)
 	{
-		cout << "Dung";
+		cout << c.getBit(i);
+		if ((i) % 32 == 0)
+		{
+			cout << endl;
+		}
 	}
-	else
-	{
-		cout << "Sai";
-	}
-	//for (int i = 127; i >= 0; i--)
-	//{
-	//	cout << a.getBit(i);
-	//	if ((i) % 32 == 0)
-	//	{
-	//		cout << endl;
-	//	}
-	//}
 	_getch();
 }

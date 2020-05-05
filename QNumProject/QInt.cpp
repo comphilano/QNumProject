@@ -150,6 +150,82 @@ void QInt::operator=(QInt a)
 		setBit(bit, i);
 	}
 }
+
+//Operator AND, OR, XOR, NOT
+QInt QInt::operator&(QInt a)
+{
+	QInt ans;
+	for (int i = 0; i < 128; i++)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x == 1 && y == 1)
+		{
+			ans.setBit(1, i);
+		}
+		else
+		{
+			ans.setBit(0, i);
+		}
+	}
+	return ans;
+}
+
+QInt QInt::operator|(QInt a)
+{
+	QInt ans;
+	for (int i = 0; i < 128; i++)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x == 0 && y == 0)
+		{
+			ans.setBit(0, i);
+		}
+		else
+		{
+			ans.setBit(1, i);
+		}
+	}
+	return ans;
+}
+
+QInt QInt::operator^(QInt a)
+{
+	QInt ans;
+	for (int i = 0; i < 128; i++)
+	{
+		int x = getBit(i);
+		int y = a.getBit(i);
+		if (x == y)
+		{
+			ans.setBit(0, i);
+		}
+		else
+		{
+			ans.setBit(1, i);
+		}
+	}
+	return ans;
+}
+
+QInt QInt::operator~()
+{
+	QInt ans;
+	for (int i = 0; i < 128; i++)
+	{
+		int x = getBit(i);
+		if (x == 0)
+		{
+			ans.setBit(1, i);
+		}
+		else
+		{
+			ans.setBit(0, i);
+		}
+	}
+	return ans;
+}
 //Hàm nhập
 void QInt::ScanQInt()
 {

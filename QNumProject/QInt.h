@@ -23,6 +23,11 @@ public:
 	bool operator>=(QInt a);
 	bool operator<=(QInt a);
 	void operator=(QInt a);
+	//operator And, Or, Xor, Not
+	QInt operator&(QInt a);
+	QInt operator|(QInt a);
+	QInt operator^(QInt a);
+	QInt operator~();
 	//Hàm xử lý
 	int HalfString(string& a);
 
