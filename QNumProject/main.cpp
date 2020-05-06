@@ -8,7 +8,7 @@ void main()
 	QInt b;
 	b.ScanQInt();
 	QInt c;
-	c = ~a;
+	c = a - b;
 	for (int i = 127; i >= 0; i--)
 	{
 		cout << c.getBit(i);

@@ -30,7 +30,11 @@ public:
 	QInt operator~();
 	//Hàm xử lý
 	int HalfString(string& a);
-
+	//operator +, -
+	QInt operator+(QInt a);
+	QInt operator-(QInt a);
+	//Chuan hoa chuoi
+	int ChuanHoa(string& s);
 
 };
 

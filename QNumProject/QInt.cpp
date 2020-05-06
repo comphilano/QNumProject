@@ -342,3 +342,96 @@ int QInt::HalfString(string& a)
 	a = ans;
 	return sodu;
 }
+
+//Chuan hoa chuoi
+int QInt::ChuanHoa(string& s)
+{
+	int Dau;
+	string temp = "";
+	if (s[0] == '-') {
+		Dau = 1;
+		s = s.substr(1, s.length());
+	}
+	else Dau = 0;
+	do {
+		if (s[0] == '0') s = s.substr(1, s.length());
+		if (s[0] != '0') break;
+	} while (true);
+	if (Dau == 1) temp = temp + "-" + s;
+	if (temp != "") s = temp;
+	for (int i = Dau; i < s.length(); i++) {
+		if (s[i] < 47 || s[i] > 58)
+			return -1;
+	}
+	return 0;
+}
+
+
+QInt QInt::operator+(QInt a)
+{
+	QInt c;
+	int nho = 0;
+	for (int i = 0; i <= 127; i++) {
+		int t = getBit(i) + a.getBit(i) + nho;
+		if (t == 3) {
+			c.setBit(1, i);
+			nho = 1;
+		}
+		else
+		{
+			if (t == 2) {
+				c.setBit(0, i);
+				nho = 1;
+			}
+			else {
+				c.setBit(t, i);
+				nho = 0;
+			}
+		}
+	}
+	return c;
+}
+
+QInt QInt::operator-(QInt a)
+{
+	QInt c;
+	a.data[0] = ~a.data[0];
+	a.data[1] = ~a.data[1];
+	a.data[2] = ~a.data[2];
+	a.data[3] = ~a.data[3];
+	//Cộng 1 ra số bù 2
+	for (int j = 0; j < 128; j++)
+	{
+		int bit = a.getBit(j);
+		if (bit == 1)
+		{
+			a.setBit(0, j);
+		}
+		else
+		{
+			a.setBit(1, j);
+			break;
+		}
+	}
+	int nho = 0;
+	for (int i = 0; i <= 127; i++) {
+		int t = getBit(i) + a.getBit(i) + nho;
+		if (t == 3) {
+			c.setBit(1, i);
+			nho = 1;
+		}
+		else
+		{
+			if (t == 2) {
+				c.setBit(0, i);
+				nho = 1;
+			}
+			else {
+				c.setBit(t, i);
+				nho = 0;
+			}
+		}
+	}
+	return c;
+}
+
