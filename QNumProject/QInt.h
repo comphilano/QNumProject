@@ -15,7 +15,7 @@ public:
 
 	//Hàm nhập xuất
 	void ScanQInt();
-	void PrintQInt();
+	string PrintQInt();
 	//operator
 	bool operator>(QInt a);
 	bool operator<(QInt a);
@@ -42,5 +42,9 @@ public:
 	//Hàm xử lý
 	int HalfString(string& a);
 	string SumString(string a, string b);
+	//Hàm trả về số dạng chuỗi được nhân 2
+	string DoubleString(string a);
+	//hàm trả về số dạng chuỗi lũy thừa 2^n
+	string ExpString(string a, int n);
 };
 

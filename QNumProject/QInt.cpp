@@ -270,6 +270,44 @@ void QInt::ScanQInt()
 	}
 }
 
+//Hàm xuất
+string QInt::PrintQInt()
+{
+	string sum = "0";
+	if (getBit(127) == 0)
+	{
+		for (int i = 0; i < 128; i++)
+		{
+			int bit = getBit(i);
+			if (bit == 1)
+			{
+				sum = SumString(sum, ExpString("2", i));
+			}
+		}
+
+	}
+	else
+	{
+		QInt a = *this;
+		a.data[0] = ~a.data[0];
+		a.data[1] = ~a.data[1];
+		a.data[2] = ~a.data[2];
+		a.data[3] = ~a.data[3];
+		QInt b = 1;
+		a = a + 1;
+		for (int i = 0; i < 128; i++)
+		{
+			int bit = a.getBit(i);
+			if (bit == 1)
+			{
+				sum = a.SumString(sum, ExpString("2", i));
+			}
+		}
+	}
+	sum.insert(sum.begin(), '-');
+	return sum;
+}
+
 //>>, <<, rol, ror
 QInt QInt::operator<<(int value)
 {
@@ -529,5 +567,26 @@ string QInt::SumString(string a, string b)
 		ans.insert(ans.begin(), '1');
 	}
 	return ans;
+}
+
+string QInt::DoubleString(string a)
+{
+	string ans;
+	ans = SumString(a, a);
+	return ans;
+}
+
+string QInt::ExpString(string a, int n)
+{
+	string ans = a;
+	if (n == 0)
+	{
+		return "1";
+	}
+	for (int i = 1; i < n; i++)
+	{
+		ans = DoubleString(ans);
+	}
+	return  ans;
 }
 
