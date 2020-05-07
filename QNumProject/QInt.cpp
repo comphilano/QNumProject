@@ -270,7 +270,54 @@ void QInt::ScanQInt()
 	}
 }
 
+//>>, <<, rol, ror
+QInt QInt::operator<<(int value)
+{
+	QInt ans;
+	for (int i = 127; i >= value; i--)
+	{
+		int bit = getBit(i - value);
+		ans.setBit(bit, i);
+	}
+	return ans;
+}
 
+QInt QInt::operator>>(int value)
+{
+	QInt ans;
+	for (int i = 0; i < 128 - value; i++)
+	{
+		int bit = getBit(i + value);
+		ans.setBit(bit, i);
+	}
+	return ans;
+}
+
+QInt QInt::rol(int value)
+{
+	QInt ans;
+	for (int i = 0; i < value; i++)
+	{
+		int bit = getBit(127);
+		ans = *this << 1;
+		ans.setBit(bit, 0);
+		*this = ans;
+	}
+	return ans;
+}
+
+QInt QInt::ror(int value)
+{
+	QInt ans;
+	for (int i = 0; i < value; i++)
+	{
+		int bit = getBit(0);
+		ans = *this >> 1;
+		ans.setBit(bit, 127);
+		*this = ans;
+	}
+	return ans;
+}
 
 int QInt::HalfString(string& a)
 {

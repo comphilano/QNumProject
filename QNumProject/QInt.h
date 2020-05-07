@@ -28,13 +28,18 @@ public:
 	QInt operator|(QInt a);
 	QInt operator^(QInt a);
 	QInt operator~();
-	//Hàm xử lý
-	int HalfString(string& a);
+	//shift left, shift right, rotate left, rotate right
+	QInt operator<<(int value);
+	QInt operator>>(int value);
+	QInt rol(int value);
+	QInt ror(int value);
 	//operator +, -
 	QInt operator+(QInt a);
 	QInt operator-(QInt a);
+
 	//Chuan hoa chuoi
 	int ChuanHoa(string& s);
-
+	//Hàm xử lý
+	int HalfString(string& a);
 };
 
