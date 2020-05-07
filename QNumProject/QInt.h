@@ -41,5 +41,6 @@ public:
 	int ChuanHoa(string& s);
 	//Hàm xử lý
 	int HalfString(string& a);
+	string SumString(string a, string b);
 };
 

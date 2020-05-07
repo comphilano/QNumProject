@@ -482,3 +482,52 @@ QInt QInt::operator-(QInt a)
 	return c;
 }
 
+//Hàm cộng 2 số nguyên dạng string
+
+string QInt::SumString(string a, string b)
+{
+	string ans;
+	if (a.length() > b.length())
+	{
+		int x = a.length() - b.length();
+		string temp;
+		for (int i = 0; i < x; i++)
+		{
+			temp.push_back('0');
+		}
+		temp += b;
+		b = temp;
+	}
+	else if (a.length() < b.length())
+	{
+		int x = b.length() - a.length();
+		string temp;
+		for (int i = 0; i < x; i++)
+		{
+			temp.push_back('0');
+		}
+		temp += a;
+		a = temp;
+	}
+	int nho = 0;
+	for (int i = a.length() - 1; i >= 0; i--)
+	{
+		int sum = (a[i] - 48) + (b[i] - 48) + nho;
+		if (sum < 10)
+		{
+			ans.insert(ans.begin(), sum + 48);
+			nho = 0;
+		}
+		else
+		{
+			ans.insert(ans.begin(), sum + 48 - 10);
+			nho = 1;
+		}
+	}
+	if (nho == 1)
+	{
+		ans.insert(ans.begin(), '1');
+	}
+	return ans;
+}
+
