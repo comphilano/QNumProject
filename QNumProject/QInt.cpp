@@ -520,6 +520,64 @@ QInt QInt::operator-(QInt a)
 	return c;
 }
 
+QInt QInt::operator/(QInt divisor) {
+  int size = 128;
+  int sign = this->getBit(size - 1) ^ divisor.getBit(size - 1);
+  int count = 0;
+  if (divisor.getBit(size - 1) == 1)
+	divisor = (~divisor) + QInt(1);
+  while (divisor.getBit(size - 2) != 1) {
+	divisor = divisor << 1;
+	count++;
+  }
+  QInt remainder = *this;
+  if (remainder.getBit(size - 1) == 1)
+	remainder = (~remainder) + QInt(1);
+  QInt quotion;
+  for (int i = 0; i <= count; i++) {
+	remainder = remainder - divisor;
+	quotion = quotion << 1;
+	if (remainder.getBit(size - 1) == 1)
+	  remainder = remainder + divisor;
+	else
+	  quotion = quotion + QInt(1);
+	divisor = divisor >> 1;
+  }
+  if (sign) {
+	quotion = (~quotion) + QInt(1);
+  }
+  return QInt(quotion);
+}
+
+QInt QInt::operator%(QInt divisor) {
+  int size = 128;
+  int sign = divisor.getBit(size - 1);
+  int count = 0;
+  if (divisor.getBit(size - 1) == 1)
+	divisor = (~divisor) + QInt(1);
+  while (divisor.getBit(size - 2) != 1) {
+	divisor = divisor << 1;
+	count++;
+  }
+  QInt remainder = *this;
+  if (remainder.getBit(size - 1) == 1)
+	remainder = (~remainder) + QInt(1);
+  QInt quotion;
+  for (int i = 0; i <= count; i++) {
+	remainder = remainder - divisor;
+	quotion = quotion << 1;
+	if (remainder.getBit(size - 1) == 1)
+	  remainder = remainder + divisor;
+	else
+	  quotion = quotion + QInt(1);
+	divisor = divisor >> 1;
+  }
+  if (sign) {
+	remainder = (~remainder) + QInt(1);
+  }
+  return QInt(remainder);
+}
+
 //Hàm cộng 2 số nguyên dạng string
 
 string QInt::SumString(string a, string b)
@@ -589,4 +647,6 @@ string QInt::ExpString(string a, int n)
 	}
 	return  ans;
 }
+
+
 

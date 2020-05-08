@@ -7,7 +7,8 @@ void main()
 	a.ScanQInt();
 	QInt b;
 	b.ScanQInt();
-	cout<<a.PrintQInt();
-	cout<<b.PrintQInt();
+	QInt c;
+	c = a % b;
+	cout << c.PrintQInt();
 	_getch();
 }
