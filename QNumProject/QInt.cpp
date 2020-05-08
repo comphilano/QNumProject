@@ -521,6 +521,8 @@ QInt QInt::operator-(QInt a)
 }
 
 QInt QInt::operator/(QInt divisor) {
+  if (divisor == QInt(0))
+	throw DividedByZero();
   int size = 128;
   int sign = this->getBit(size - 1) ^ divisor.getBit(size - 1);
   int count = 0;
@@ -550,6 +552,8 @@ QInt QInt::operator/(QInt divisor) {
 }
 
 QInt QInt::operator%(QInt divisor) {
+  if (divisor == QInt(0))
+	throw DividedByZero();
   int size = 128;
   int sign = this->getBit(size - 1);
   int count = 0;

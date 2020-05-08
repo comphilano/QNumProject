@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include<iostream>
 
+class Error{};
+class DividedByZero : public Error{};
 using namespace std;
 class QInt
 {
