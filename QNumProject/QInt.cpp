@@ -476,22 +476,27 @@ int QInt::HalfString(string& a)
 int QInt::ChuanHoa(string& s)
 {
 	int Dau;
-	string temp = "";
+	if (s == "-") return -1;
+	//Kiểm tra dấu của dãy số
 	if (s[0] == '-') {
 		Dau = 1;
-		s = s.substr(1, s.length());
+		s = s.substr(1, s.length()); //Cắt dấu đi để chuẩn hóa lại chuỗi
 	}
 	else Dau = 0;
+	
 	do {
+		//Nếu dãy chỉ bao gồm 1 số 0 thì giữ lại
+		if (s.length() == 1 && s[0] == s[s.length() - 1]) break;
 		if (s[0] == '0') s = s.substr(1, s.length());
-		if (s[0] != '0') break;
-	} while (true);
-	if (Dau == 1) temp = temp + "-" + s;
-	if (temp != "") s = temp;
+	} while (s[0] == '0');
+	
+	if(Dau == 1) s = "-" + s;
+	
 	for (int i = Dau; i < s.length(); i++) {
 		if (s[i] < 47 || s[i] > 58)
 			return -1;
 	}
+	if (s == "-0") s = "0";
 	return 0;
 }
 
