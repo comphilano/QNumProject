@@ -3,17 +3,16 @@
 #include<conio.h>
 void main()
 {
-	while (true)
-	{
-		system("cls");
-		QInt a;
-		QInt b;
-		a.ScanQInt();
-		b.ScanQInt();
-		QInt c;
-		c = a * b;
-		cout << c.PrintQInt();
-		_getch();
+	QInt a;
+	a.ScanQInt();
+	QInt b;
+	b.ScanQInt();
+	QInt c;
+	try {
+	  c = a / b;
+	  cout << "a / b = " << c.PrintQInt();
+	} catch (DividedByZero e) {
+	  cout << "Loi chia cho 0";
 	}
 	_getch();
 }

@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include<iostream>
 
+class Error{};
+class DividedByZero : public Error{};
 using namespace std;
 class QInt
 {
@@ -36,7 +38,9 @@ public:
 	//operator +, -
 	QInt operator+(QInt a);
 	QInt operator-(QInt a);
-
+	//operator /, %
+	QInt operator/(QInt);
+	QInt operator%(QInt);
 	//Chuan hoa chuoi
 	int ChuanHoa(string& s);
 	//Hàm xử lý
