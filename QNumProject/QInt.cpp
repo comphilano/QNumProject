@@ -303,8 +303,8 @@ string QInt::PrintQInt()
 				sum = a.SumString(sum, ExpString("2", i));
 			}
 		}
+		sum.insert(sum.begin(), '-');
 	}
-	sum.insert(sum.begin(), '-');
 	return sum;
 }
 
