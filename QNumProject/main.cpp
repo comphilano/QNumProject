@@ -7,12 +7,10 @@ void main()
 	a.ScanQInt();
 	QInt b;
 	b.ScanQInt();
-	QInt c;
-	try {
-	  c = a / b;
-	  cout << "a / b = " << c.PrintQInt();
-	} catch (DividedByZero e) {
-	  cout << "Loi chia cho 0";
+	if (a >= b)
+	{
+		cout << "true";
 	}
+	else cout << "false";
 	_getch();
 }

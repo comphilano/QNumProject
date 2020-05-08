@@ -54,17 +54,28 @@ QInt::QInt(int a)
 //Operator
 bool QInt::operator>(QInt a)
 {
-	for (int i = 127; i >= 0; i--)
+	if (getBit(127) > a.getBit(127))
 	{
-		int x = getBit(i);
-		int y = a.getBit(i);
-		if (x > y)
+		return false;
+	}
+	else if (getBit(127) < a.getBit(127))
+	{
+		return true;
+	}
+	else
+	{
+		for (int i = 126; i >= 0; i--)
 		{
-			return true;
-		}
-		else if (x < y)
-		{
-			return false;
+			int x = getBit(i);
+			int y = a.getBit(i);
+			if (x > y)
+			{
+				return true;
+			}
+			else if (x < y)
+			{
+				return false;
+			}
 		}
 	}
 	return false;
@@ -72,17 +83,28 @@ bool QInt::operator>(QInt a)
 
 bool QInt::operator<(QInt a)
 {
-	for (int i = 127; i >= 0; i--)
+	if (getBit(127) < a.getBit(127))
 	{
-		int x = getBit(i);
-		int y = a.getBit(i);
-		if (x < y)
+		return false;
+	}
+	else if (getBit(127) > a.getBit(127))
+	{
+		return true;
+	}
+	else
+	{
+		for (int i = 126; i >= 0; i--)
 		{
-			return true;
-		}
-		else if (x > y)
-		{
-			return false;
+			int x = getBit(i);
+			int y = a.getBit(i);
+			if (x < y)
+			{
+				return true;
+			}
+			else if (x > y)
+			{
+				return false;
+			}
 		}
 	}
 	return false;
@@ -108,17 +130,28 @@ bool QInt::operator==(QInt a)
 
 bool QInt::operator>=(QInt a)
 {
-	for (int i = 127; i >= 0; i--)
+	if (getBit(127) > a.getBit(127))
 	{
-		int x = getBit(i);
-		int y = a.getBit(i);
-		if (x > y)
+		return false;
+	}
+	else if (getBit(127) < a.getBit(127))
+	{
+		return true;
+	}
+	else
+	{
+		for (int i = 126; i >= 0; i--)
 		{
-			return true;
-		}
-		else if (x < y)
-		{
-			return false;
+			int x = getBit(i);
+			int y = a.getBit(i);
+			if (x > y)
+			{
+				return true;
+			}
+			else if (x < y)
+			{
+				return false;
+			}
 		}
 	}
 	return true;
@@ -126,17 +159,28 @@ bool QInt::operator>=(QInt a)
 
 bool QInt::operator<=(QInt a)
 {
-	for (int i = 127; i >= 0; i--)
+	if (getBit(127) < a.getBit(127))
 	{
-		int x = getBit(i);
-		int y = a.getBit(i);
-		if (x < y)
+		return false;
+	}
+	else if (getBit(127) > a.getBit(127))
+	{
+		return true;
+	}
+	else
+	{
+		for (int i = 126; i >= 0; i--)
 		{
-			return true;
-		}
-		else if (x > y)
-		{
-			return false;
+			int x = getBit(i);
+			int y = a.getBit(i);
+			if (x < y)
+			{
+				return true;
+			}
+			else if (x > y)
+			{
+				return false;
+			}
 		}
 	}
 	return true;
