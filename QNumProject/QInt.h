@@ -46,5 +46,12 @@ public:
 	string DoubleString(string a);
 	//hàm trả về số dạng chuỗi lũy thừa 2^n
 	string ExpString(string a, int n);
+	QInt operator*(QInt a);
+	//Cộng số QInt vào chuỗi
+	void plusInMulti(char*& a);
+	//Dịch phải chuỗi
+	void shrInMulti(char*& a);
+	//Đảo bit trong chuỗi
+	void transBit(char*& a);
 };
 

@@ -3,11 +3,17 @@
 #include<conio.h>
 void main()
 {
-	QInt a;
-	a.ScanQInt();
-	QInt b;
-	b.ScanQInt();
-	cout<<a.PrintQInt();
-	cout<<b.PrintQInt();
+	while (true)
+	{
+		system("cls");
+		QInt a;
+		QInt b;
+		a.ScanQInt();
+		b.ScanQInt();
+		QInt c;
+		c = a * b;
+		cout << c.PrintQInt();
+		_getch();
+	}
 	_getch();
 }

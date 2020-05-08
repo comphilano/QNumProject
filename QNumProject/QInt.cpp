@@ -590,3 +590,198 @@ string QInt::ExpString(string a, int n)
 	return  ans;
 }
 
+
+QInt QInt::operator*(QInt a)
+{
+	QInt ans;								//Kết quả trả về
+	int x, y;								// x lưu dấu của số thứ 1 (QInt this), y lưu dấu của số thứ 2(QInt a)
+	x = getBit(127);
+	y = getBit(127);
+
+	char* ketQua;
+	ketQua = new char[258];
+	ketQua[0] = '0';
+	ketQua[257] = '\0';
+
+	if (x == 0 && y == 0)					// Nhân hai số dương
+	{
+		for (int i = 1; i < 129; i++)		// chuyển bit nhớ, số thứ 1, số thứ 2 vào ketQua
+		{
+			ketQua[i] = '0';
+			ketQua[i + 128] = a.getBit(128 - i) + '0';
+		}
+
+		for (int i = 0; i < 128; i++)
+		{
+			if (ketQua[256] == '1')
+			{
+				plusInMulti(ketQua);		//cộng (QInt this) vào chuỗi ketQua
+				shrInMulti(ketQua);			//dịch phải chuỗi ketQua
+			}
+			else
+			{
+				shrInMulti(ketQua);		//dịch phải chuỗi ketQua
+			}
+		}
+
+		for (int i = 0; i < 128; i++)			// lưu chuỗi ketQua vào ans
+		{
+			if (ketQua[256 - i] == '0')
+				ans.setBit(0, i);
+			else
+				ans.setBit(1, i);
+		}
+	}
+	else
+		if ((x == 0 && y == 1) || (x == 1 && y == 0))		//nhân số dương với âm, ngược lại
+		{
+			if (y == 1)									//số thứ 2 âm, chuyển nó sang dương
+			{
+				QInt temp;
+				temp.setBit(1, 0);
+				a = ~a;
+				a = a + temp;
+			}
+			else
+			{
+				QInt temp;								//số thứ 1 âm, chuyển sang dương
+				temp.setBit(1, 0);
+				*this = ~(*this);
+				*this = *this + temp;
+			}
+
+			for (int i = 1; i < 129; i++)				// chuyển bit nhớ, số thứ 1, số thứ 2 vào ketQua
+			{
+				ketQua[i] = '0';
+				ketQua[i + 128] = a.getBit(128 - i) + '0';
+			}
+
+			for (int i = 0; i < 128; i++)
+			{
+				if (ketQua[256] == '1')
+				{
+					plusInMulti(ketQua);
+					shrInMulti(ketQua);
+				}
+				else
+				{
+					shrInMulti(ketQua);
+				}
+			}
+
+			transBit(ketQua);					// kết quả dương -> âm
+			QInt temp;
+			temp.setBit(1, 0);
+			temp.plusInMulti(ketQua);			//chuyển sang bù 2
+
+			for (int i = 0; i < 128; i++)		//lưu kết quả vào ans
+			{
+				if (ketQua[256 - i] == '0')
+					ans.setBit(0, i);
+				else
+					ans.setBit(1, i);
+			}
+		}
+		else
+			if (x == 1 && y == 1)			// nhân hai số âm
+			{
+				QInt temp;
+				temp.setBit(1, 0);
+				a = ~a;						// chuyển hai số âm sang dương
+				a = a + temp;
+				*this = ~(*this);
+				*this = *this + temp;
+
+				for (int i = 1; i < 129; i++) // chuyen bit nho, so thu 1, so thu 2 vao ketQua
+				{
+					ketQua[i] = '0';
+					ketQua[i + 128] = a.getBit(128 - i) + '0';
+				}
+
+				for (int i = 0; i < 128; i++)
+				{
+					if (ketQua[256] == '1')
+					{
+						plusInMulti(ketQua);
+						shrInMulti(ketQua);
+					}
+					else
+					{
+						shrInMulti(ketQua);
+					}
+				}
+
+				for (int i = 0; i < 128; i++)
+				{
+					if (ketQua[256 - i] == '0')
+						ans.setBit(0, i);
+					else
+						ans.setBit(1, i);
+				}
+				return ans;
+			}
+
+
+	for (int i = 0; i < 128; i++)
+	{
+		if (ketQua[256 - i] == '0')
+			ans.setBit(0, i);
+		else
+			ans.setBit(1, i);
+	}
+	return ans;
+}
+
+void QInt::plusInMulti(char*& a)
+{
+	int bitNho = 0;
+	for (int i = 0; i < 128; i++)
+	{
+		if (bitNho == 1 && getBit(i) == 0 && a[128 - i] == '0')
+		{
+			a[128 - i] = '1';
+			bitNho = 0;
+		}
+		else
+			if (bitNho == 0 && getBit(i) == 1 && a[128 - i] == '0')
+			{
+				a[128 - i] = '1';
+			}
+			else
+				if (bitNho == 1 && (getBit(i) == 0 && a[128 - i] == '1'))
+				{
+					a[128 - i] = '0';
+				}
+				else
+					if (bitNho == 0 && getBit(i) == 1 && a[128 - i] == '1')
+					{
+						a[128 - i] = '0';
+						bitNho = 1;
+					}
+	}
+	if (bitNho == 1)
+		a[0] = '1';
+}
+
+void QInt::shrInMulti(char*& a)
+{
+	for (int i = 256; i > 0; i--)
+	{
+		a[i] = a[i - 1];
+	}
+	a[0] = '0';
+}
+
+void QInt::transBit(char*& a)
+{
+	for (int i = 129; i < 257; i++)
+	{
+		if (a[i] == '0')
+		{
+			a[i] = '1';
+		}
+		else
+			a[i] = '0';
+	}
+}
+
