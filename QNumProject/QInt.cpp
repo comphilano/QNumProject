@@ -551,7 +551,7 @@ QInt QInt::operator/(QInt divisor) {
 
 QInt QInt::operator%(QInt divisor) {
   int size = 128;
-  int sign = divisor.getBit(size - 1);
+  int sign = this->getBit(size - 1);
   int count = 0;
   if (divisor.getBit(size - 1) == 1)
 	divisor = (~divisor) + QInt(1);
