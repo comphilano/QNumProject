@@ -177,3 +177,52 @@ void QFloat::ScanQFloat()
 		setBit(0, 127);
 	}
 }
+
+//Hàm chuẩn hóa chuỗi
+int QFloat::ChuanHoaChuoi(string& s)
+{
+	int Dau;
+	int k = 0;
+	if (s == "-") return -1;
+
+	//Kiểm tra dấu của dãy số
+	if (s[0] == '-') {
+		Dau = 1;
+		s = s.substr(1, s.length()); //Cắt dấu đi để chuẩn hóa lại chuỗi
+	}
+	else Dau = 0;
+
+	if (s[0] == '.' || s[s.length() - 1] == '.') return -1;
+
+	do	//Loại bỏ các số 0 ở đầu phần nguyên
+	{
+		if (s[0] == '0' && s[1] == '.') break;
+		if (s.length() == 1 && s[0] == '0') break;
+		if (s[0] == '0') s = s.substr(1, s.length());
+	} while (s[0] == '0');
+
+	//Trường hợp dãy chứa toàn số 0
+	if (s[0] == '0' && s[1] == '.') {		
+		for (int i = 2; i < s.length(); i++) {
+			if (s[i] != '0') break;
+			if (i == (s.length() - 1)) s = "0.0";
+		}
+	}
+
+	if (Dau == 1) s = "-" + s;	//Thêm lại dấu vào chuỗi nếu chuỗi ban đầu chứa dấu
+	
+	for (int i = Dau; i < s.length(); i++) {
+		if ((s[i] < 47 || s[i] > 58) && s[i] != '.')
+			return -1;
+		if (s[i] == '.') k += 1;	//Trường hợp chuỗi có hơn một dấu '.'
+		if (k > 1) return -1;
+		if (s[i] == '.') {		//Loại bỏ các số 0 ở cuối phần thực
+			for (int j = s.length() - 1; j > (i + 1); j--) {
+				if (s[j] == '0') s = s.substr(0, s.length() - 1);
+				else break;
+			}
+		}
+	}
+	if (s == "-0.0" || s == "-0") s = "0.0"; 
+	return 0;
+}
