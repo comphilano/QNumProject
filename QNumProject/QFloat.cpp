@@ -201,14 +201,6 @@ int QFloat::ChuanHoaChuoi(string& s)
 		if (s[0] == '0') s = s.substr(1, s.length());
 	} while (s[0] == '0');
 
-	//Trường hợp dãy chứa toàn số 0
-	if (s[0] == '0' && s[1] == '.') {		
-		for (int i = 2; i < s.length(); i++) {
-			if (s[i] != '0') break;
-			if (i == (s.length() - 1)) s = "0.0";
-		}
-	}
-
 	if (Dau == 1) s = "-" + s;	//Thêm lại dấu vào chuỗi nếu chuỗi ban đầu chứa dấu
 	
 	for (int i = Dau; i < s.length(); i++) {
