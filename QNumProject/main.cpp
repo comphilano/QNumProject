@@ -4,13 +4,9 @@
 void main()
 {
 	QInt a;
+	bool* bit = new bool;
+	char* b = new char;
 	a.ScanQInt();
-	QInt b;
-	b.ScanQInt();
-	if (a >= b)
-	{
-		cout << "true";
-	}
-	else cout << "false";
+	cout << a.BinToHex(bit);
 	_getch();
 }

@@ -57,5 +57,17 @@ public:
 	void shrInMulti(char*& a);
 	//Đảo bit trong chuỗi
 	void transBit(char*& a);
+	//Hàm chuyển hệ 10 sang hệ 2
+	bool* DecToBin(QInt x);
+	//Hàm chuyển hệ 2 sang hệ 10
+	QInt BinToDeC(bool* a);
+	//Hàm chuyển hệ 2 sang hệ 16
+	string BinToHex(bool* bit);
+	//Ham chuyen he 10 sang he 16
+	string DecToHex(QInt a);
+	//Hàm chuyển string đến bool
+	bool* StringToBool(string a);
+	//Hàm chia 16
+	char DevHex(string& a);
 };
 

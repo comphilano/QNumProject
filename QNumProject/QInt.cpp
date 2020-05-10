@@ -896,3 +896,176 @@ void QInt::transBit(char*& a)
 	}
 }
 
+//Hàm chuyển hệ số 
+bool* QInt::DecToBin(QInt x)
+{
+	bool* a = new bool[127];
+	for (int i = 0; i < 128; i++)
+	{
+		int bit = x.getBit(i);
+		if (bit == 1)
+			a[i] = true;
+		else
+			a[i] = false;
+	}
+	return a;
+}
+
+//QInt QInt::BinToDeC(bool* bit)
+//{
+//	for (int i = 0; i < length;i++)
+//	{
+//		if (bit[i] == true)
+//			setBit(1, i);
+//		else
+//			setBit(0, i);
+//	}
+//	return *this;
+//}
+string QInt::BinToHex(bool* bit)
+{
+	string sum = "0";
+	string temp,final;
+	if (getBit(127) == 0)
+	{
+		for (int i = 0; i < 128; i++)
+		{
+			int bit = getBit(i);
+			if (bit == 1)
+			{
+				sum = SumString(sum, ExpString("2", i));
+			}
+		}
+
+	}
+	else
+	{
+		QInt a = *this;
+		a.data[0] = ~a.data[0];
+		a.data[1] = ~a.data[1];
+		a.data[2] = ~a.data[2];
+		a.data[3] = ~a.data[3];
+		QInt b = 1;
+		a = a + 1;
+		for (int i = 0; i < 128; i++)
+		{
+			int bit = a.getBit(i);
+			if (bit == 1)
+			{
+				sum = a.SumString(sum, ExpString("2", i));
+			}
+		}
+		sum.insert(sum.begin(), '-');
+	}
+	temp = sum;
+	if (temp.length() == 1)
+		return temp;
+	else
+	{
+		string oldtemp = temp;
+		for (int i = 0; i < sum.length(); i++)
+			{
+				final.insert(final.begin(), DevHex(temp));
+				if (oldtemp == temp)
+					break;
+				else
+					oldtemp = temp;
+			}
+
+
+	}
+	return final;
+}
+//Hàm chia 16
+char QInt::DevHex(string& sou)
+{
+	int temp1, du, thuong;
+	int pos = 0;
+	int length = sou.length();
+	string soudet;
+	int dodaithuong = 0;
+	int dusou = 0;
+	int thuongsou = 0;
+	du = 0;
+	thuong = 0;
+	string det;
+	if (sou.length() < 2)
+	{
+
+		return sou[0];
+	}
+	else
+	{
+		int i;
+		int j = 0;
+		for (i = 0; (i < sou.length()) && (length > 1); i + 2)
+		{
+			temp1 = (sou[j] - 48) * 10 + (sou[j + 1] - 48) + du * 100;
+			du = temp1 % 16;
+			thuong = thuong * 100 + (temp1 / 16);
+			length -= 2;
+			pos += 2;
+			j += 2;
+		}
+		if (length == 1)
+		{
+			temp1 = (sou[pos] - 48) + du * 10;
+			du = temp1 % 16;
+			thuong = thuong * 10 + (temp1 / 16);
+		}
+	}
+	thuongsou = thuong;
+	do
+	{
+		dusou = thuongsou % 10;
+		thuongsou /= 10;
+		soudet.insert(soudet.begin(), dusou + 48);
+	} while (thuongsou >= 1);
+	sou = soudet;
+	if (du > 9)
+		return du + 55;
+	else
+		return du + 48;
+}
+
+string QInt::DecToHex(QInt a)
+{
+	string sum, temp,final;
+	sum = a.PrintQInt();
+	temp = sum;
+	if (sum.length() == 1)
+		return temp;
+	else
+	{
+		string oldtemp = temp;
+		for (int i = 0; i < sum.length(); i++)
+			{
+				final.insert(final.begin(), DevHex(temp));
+				if (oldtemp == temp)
+					break;
+				else
+					oldtemp = temp;
+			}
+		
+	}
+	return final;
+}
+
+
+
+//Hàm String đến Bool
+bool* QInt::StringToBool(string a)
+{
+	int length = a.length();
+	
+	bool* det = new bool;
+	for (int i = 0; i < length; i++)
+	{
+		if (a[i] == 48)
+			det[i] = 1;
+		else
+			det[i] = true;
+	}
+	return det;
+}
+
