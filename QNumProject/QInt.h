@@ -12,6 +12,7 @@ private:
 public:
 	QInt();
 	QInt(int a);
+	QInt(string a);
 	int getBit(int pos);
 	void setBit(int value, int pos);
 

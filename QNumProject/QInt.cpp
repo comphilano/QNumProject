@@ -1069,3 +1069,51 @@ bool* QInt::StringToBool(string a)
 	return det;
 }
 
+//Hàm khởi tạo QInt với giá trị chuỗi
+
+QInt::QInt(string a)
+{
+	//Khởi tạo bằng 0
+	for (int i = 0; i < 128; i++)
+	{
+		setBit(0, i);
+	}
+	//
+	int am = 0;
+	int pos = 0;
+	if (a[0] == '-')
+	{
+		a.erase(a.begin());
+		am = 1;
+	}
+	while (a[0] != '0')
+	{
+		int du = HalfString(a);
+		setBit(du, pos);
+		pos++;
+	}
+	if (am == 1)
+	{
+		//Đảo bit ra số bù 1
+		data[0] = ~data[0];
+		data[1] = ~data[1];
+		data[2] = ~data[2];
+		data[3] = ~data[3];
+		//Cộng 1 ra số bù 2
+		for (int j = 0; j < 128; j++)
+		{
+			int bit = this->getBit(j);
+			if (bit == 1)
+			{
+				setBit(0, j);
+			}
+			else
+			{
+				setBit(1, j);
+				break;
+			}
+		}
+
+	}
+}
+
