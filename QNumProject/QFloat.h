@@ -21,6 +21,9 @@ public:
 	string DoubleString(string a);
 	string SumString(string a, string b);
 	//Hàm trả về số dạng chuỗi được nhân 2
+	
+	//Hàm chuẩn hóa chuỗi
+	int ChuanHoaChuoi(string& s);
 };
 
 
