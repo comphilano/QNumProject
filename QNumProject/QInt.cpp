@@ -899,7 +899,7 @@ void QInt::transBit(char*& a)
 //Hàm chuyển hệ số 
 bool* QInt::DecToBin(QInt x)
 {
-	bool* a = new bool[127];
+	bool* a = new bool[128];
 	for (int i = 0; i < 128; i++)
 	{
 		int bit = x.getBit(i);
