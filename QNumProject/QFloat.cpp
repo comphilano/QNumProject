@@ -215,6 +215,7 @@ int QFloat::ChuanHoaChuoi(string& s)
 			}
 		}
 	}
+	if (k == 0) s = s + ".0";
 	if (s == "-0.0" || s == "-0") s = "0.0"; 
 	return 0;
 }
