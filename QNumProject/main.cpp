@@ -3,8 +3,9 @@
 #include "Menu.h"
 #include <Windows.h>
 #include<conio.h>
+#include "FileManip.h"
 void main()
 {
-	Menu m;
-	m.MainMenu();
+  FileManip x;
+  x.Manip("d:\\alo.txt", "", "int");
 }
