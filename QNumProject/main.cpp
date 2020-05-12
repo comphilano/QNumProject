@@ -8,12 +8,18 @@
 void main(int argc, char* argv[])
 {
   XuLiCMD(argc, argv);
-  //FileManip x;
-  //x.Manip("d:\\alo.txt", "d:\\nac.txt", "int");
+  FileManip x;
+  x.Manip("d:\\alo.txt", "d:\\nac.txt", "int");
   //cout << StrToInt("6969");
   //QInt y("-873129580771448538940058586182283");
   //cout << ArrBinToStr(y.DecToBin(y));
   //QInt z("36446868780624476630340083329890");
   //QInt y("3191122320557494");
   //cout << (z == y);
+  //QInt x("100");
+  //cout << ArrBinToStr(x.DecToBin(x));
+  //bool b[4] = { 0,1,1,1 };
+  //QInt x;
+  //x.BinToDeC(b);
+  //cout << x.PrintQInt();
 }

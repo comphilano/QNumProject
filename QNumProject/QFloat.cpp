@@ -239,7 +239,7 @@ QFloat QFloat::BinToDec(bool* bit)
 //Hàm chuyển đổi hệ 10 sang 2
 bool* QFloat::DecToBin(QFloat a)
 {
-	bool* det = new bool[127];
+	bool* det = new bool[128];
 	for (int i = 0; i < 128; i++)
 	{
 		int bit = a.getBit(i);

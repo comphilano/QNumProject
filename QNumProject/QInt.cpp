@@ -904,9 +904,9 @@ bool* QInt::DecToBin(QInt x)
 	{
 		int bit = x.getBit(i);
 		if (bit == 1)
-			a[128 - i] = true;
+			a[128 -1 - i] = true;
 		else
-			a[128- i] = false;
+			a[128 - 1- i] = false;
 	}
 	return a;
 }
@@ -914,9 +914,10 @@ bool* QInt::DecToBin(QInt x)
 QInt QInt::BinToDeC(bool* bit)
 {
 	string convert = BoolToString(bit);
+	convert = StringReverse(convert);
 	for (int i = 0; i < convert.length();i++)
 	{
-		if (bit[i] == true)
+		if (convert[i] == '1')
 		{
 			setBit(1, i);
 		}
@@ -1013,6 +1014,13 @@ char QInt::DevHex(string& sou)
 		return du + 55;
 	else
 		return du + 48;
+}
+
+std::string QInt::StringReverse(std::string s) {
+  std::string res;
+  for (int i = s.length() - 1; i >= 0; i--)
+	res = res + s[i];
+  return res;
 }
 
 string QInt::DecToHex(QInt a)

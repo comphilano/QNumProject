@@ -74,5 +74,6 @@ public:
 	string BoolToString(bool* a);
 	//Hàm chia 16
 	char DevHex(string& a);
+	std::string StringReverse(std::string);
 };
 

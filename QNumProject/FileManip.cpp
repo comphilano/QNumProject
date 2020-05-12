@@ -1,8 +1,5 @@
 #include "FileManip.h"
 #include <fstream>
-#include <iostream>
-#include <chrono>
-#include "QInt.h"
 #include "QFloat.h"
 FileManip::FileManip() : type_ { 0 }, base_1_ { 0 }, base_2_ { 0 }, op_ { 0 } {
 }
@@ -22,18 +19,8 @@ void FileManip::Manip(std::string source, std::string result, std::string type) 
   out_f.open(result);
   type_ = type;
   while (in_f.peek() != EOF) {
-    //auto start = chrono::high_resolution_clock::now();
     Parsing(in_f);
-    //auto stop = chrono::high_resolution_clock::now();
-    //auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-    //cout << "Time taken by parsing: "
-    //  << duration.count() << " microseconds" << endl;
-    //start = chrono::high_resolution_clock::now();
     out_f << Process() << std::endl;
-    //stop = chrono::high_resolution_clock::now();
-    //duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-    //cout << "Time taken by process: "
-    //  << duration.count() << " microseconds" << endl;
   }
   in_f.close();
 }
@@ -46,9 +33,11 @@ std::string FileManip::Process() {
     bool* arr_2;
     if (base_1_ == 2) {
       arr_1 = StrBinToArr(operand_1_);
-      if (operand_2_ != "");
+      x.BinToDeC(arr_1);
+      if (operand_2_ != "") {
         arr_2 = StrBinToArr(operand_2_);
-      //Chuyen 2 ve 10
+        y.BinToDeC(arr_2);
+      }
     } else
       if (base_1_ == 10) {
         QInt t1(operand_1_);
@@ -58,7 +47,6 @@ std::string FileManip::Process() {
           y = t2;
         }
       } else {
-        //Chuyen 16 ve 10
       }
     if (op_ == "") { //Chuyen co so
        if (base_2_ == 10)
@@ -69,44 +57,55 @@ std::string FileManip::Process() {
          return ArrBinToStr(x.DecToBin(x));
     }
     else { //Tinh toan
-      if (op_ == "+")
-        return (x + y).PrintQInt();
-      if (op_ == "-")
-        return (x - y).PrintQInt();
-      if (op_ == "*")
-        return (x * y).PrintQInt();
-      if (op_ == "/")
-        return (x / y).PrintQInt();
-      if (op_ == "&") 
-        return (x & y).PrintQInt();
-      if (op_ == "|")
-        return (x | y).PrintQInt();
-      if (op_ == "^")
-        return (x | y).PrintQInt();
-      if (op_ == "~")
-        return (~x).PrintQInt();
-      int z = StrToInt(operand_2_);
-      if (op_ == ">>")
-        return (x >> z).PrintQInt();
-      if (op_ == "<<")
-        return (x << z).PrintQInt();
-      if (op_ == "ror")
-        return (x.ror(z)).PrintQInt();
-      if (op_ == "rol")
-        return (x.rol(z)).PrintQInt();
-      std::string s;
-      if (op_ == "<")
-        return s + (static_cast<char>(x < y) ? "true" : "false");
-      if (op_ == ">")
-        return s + (static_cast<char>(x > y) ? "true" : "false");
-      if (op_ == "==")
-        return s + (static_cast<char>(x == y) ? "true" : "false");
-      if (op_ == ">=")
-        return s + (static_cast<char>(x >= y) ? "true" : "false");
-      if (op_ == "<=")
-        return s + (static_cast<char>(x <= y) ? "true" : "false");
+      QInt temp;
+      if (op_ == "+" || op_ == "-" || op_ == "*" || op_ == "/" || op_ == ">>" || op_ == "<<"
+          || op_ == "rol" || op_ == "ror" || op_ == "&" || op_ == "|" || op_ == "^" || op_ == "~") {
+        if (op_ == "+")
+          temp = (x + y);
+        if (op_ == "-")
+          temp = (x - y);
+        if (op_ == "*")
+          temp = (x * y);
+        if (op_ == "/")
+          temp = (x / y);
+        if (op_ == "&")
+          temp = (x & y);
+        if (op_ == "|")
+          temp = (x | y);
+        if (op_ == "^")
+          temp = (x ^ y);
+        if (op_ == "~")
+          temp = (~x);
+        int z = StrToInt(operand_2_);
+        if (op_ == ">>")
+          temp = (x >> z);
+        if (op_ == "<<")
+          temp = (x << z);
+        if (op_ == "ror")
+          temp = (x.ror(z));
+        if (op_ == "rol")
+          temp = (x.rol(z));
+        if (base_1_ == 2)
+          return ArrBinToStr(temp.DecToBin(temp));
+        else if (base_1_ == 10)
+          return temp.PrintQInt();
+        else
+          return temp.DecToHex(temp);
+      } else {
+        std::string s;
+        if (op_ == "<")
+          return s + (static_cast<char>(x < y) ? "true" : "false");
+        if (op_ == ">")
+          return s + (static_cast<char>(x > y) ? "true" : "false");
+        if (op_ == "==")
+          return s + (static_cast<char>(x == y) ? "true" : "false");
+        if (op_ == ">=")
+          return s + (static_cast<char>(x >= y) ? "true" : "false");
+        if (op_ == "<=")
+          return s + (static_cast<char>(x <= y) ? "true" : "false");
+      }
     }
-  } /*else {
+  } else {
     QFloat x;
     QFloat y;
     bool* arr_1;
@@ -115,22 +114,22 @@ std::string FileManip::Process() {
       arr_1 = StrBinToArr(operand_1_);
       if (operand_2_ != "");
       arr_2 = StrBinToArr(operand_2_);
-      //Chuyen 2 ve 10
     } else
       if (base_1_ == 10) {
-        QFloat t1(operand_1_);
-        x = t1;
-        if (operand_2_ != "") {
-          QFloat t2(operand_2_);
-          y = t2;
-        }
+        //QFloat t1(operand_1_);
+        //x = t1;
+        //if (operand_2_ != "") {
+        //  QFloat t2(operand_2_);
+        //  y = t2;
+        //}
       }
     if (op_ == "") { //Chuyen co so
-      if (base_2_ == 10)
-        return x.PrintQFloat();
+      if (base_2_ == 10);
+       // return x.PrintQFloat(x);
       else
         return ArrBinToStr(x.DecToBin(x));
-  }*/
+    }
+  }
   return "";
 }
 
@@ -171,16 +170,21 @@ void FileManip::Parsing(std::ifstream& in_f) {
 
 bool* StrBinToArr(std::string s) {
   bool* x;
-  x = new bool[128];
+  x = new bool[s.length()];
   for (int i = 0; i < s.length(); i++)
-    x[i] = s[i];
+    x[i] = (s[i] - '0');
   return x;
 }
 
 std::string ArrBinToStr(bool* b) {
   std::string s;
-  for (int i = 0; i < 128; i++)
-    s = s + static_cast<char>(b[i] + '0');
+  bool flag = false;
+  for (int i = 0; i < 128; i++) {
+    if (b[i] == 1)
+      flag = true;
+    if (flag)
+      s = s + static_cast<char>(b[i] + '0');
+  }
   return s;
 }
 
