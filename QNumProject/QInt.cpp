@@ -941,7 +941,6 @@ string QInt::BinToHex(bool* bit)
 	{
 		sum = Split(*this, j);
 		temp = sum;
-		cout << "Temp  " << temp << endl;
 		if (sum.length() == 1)
 		{
 			final.insert(final.begin(), DevHex(temp));
@@ -960,7 +959,6 @@ string QInt::BinToHex(bool* bit)
 		}
 		while (final[0] == 48)
 			final.erase(final.begin());
-		cout << final << endl;
 		j += 8;
 	}
 	return final;
@@ -1026,7 +1024,6 @@ string QInt::DecToHex(QInt a)
 	{
 		sum = a.Split(a, j);
 		temp = sum;
-		cout << "Temp  " << temp << endl;
 		if (sum.length() == 1)
 		{
 			final.insert(final.begin(), DevHex(temp));
@@ -1045,7 +1042,6 @@ string QInt::DecToHex(QInt a)
 		}
 		while (final[0] == 48)
 			final.erase(final.begin());
-		cout << final << endl;
 		j += 8;
 	}
 	return final;
@@ -1071,7 +1067,6 @@ string QInt::Split(QInt a, int pos)
 	}
 	for (int i = j; i < 128; i++)
 		dec.setBit(0, i);
-	cout << dec.PrintQInt() << endl;
 	return dec.PrintQInt();
 }
 
