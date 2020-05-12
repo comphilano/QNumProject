@@ -49,6 +49,9 @@ public:
 
 	string PrintBin(QFloat a);
 	void DaoChuoi(string& a);
+
+	//Hàm làm tròn số
+	string LamTron();
 };
 
 

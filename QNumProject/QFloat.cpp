@@ -816,3 +816,42 @@ void QFloat::DaoChuoi(string& a)
 	}
 	a = b;
 }
+
+//Làm tròn số
+
+string QFloat::LamTron()
+{
+	string b;
+	b = PrintQFloat();
+	int vt;
+	int i = b.length() - 1;
+	for (i; i >= 0; i--)
+	{
+		if (b[i] != b[b.length() - 1])
+		{
+			break;
+		}
+	}
+	if (b[i] == '.')
+	{
+		i--;
+	}
+	QFloat c = *this;
+	string b1;
+	for (int j = 0; j < 128; j++)
+	{
+		c.setBit(1, j);
+
+		b1 = c.PrintQFloat();
+		if (b1[i] != b[i])
+		{
+			break;
+		}
+		else
+		{
+			c.setBit(0, j);
+		}
+	}
+	b1 = c.PrintQFloat();
+	return b1;
+}
