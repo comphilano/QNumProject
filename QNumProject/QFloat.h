@@ -9,10 +9,10 @@ private:
 	int data[4];
 public:
 	QFloat();
+	QFloat(string a);
 	int getBit(int pos);
 	void setBit(int value, int pos);
 	void ScanQFloat();
-	string PrintQFloat(QFloat x);
 
 
 	//Hàm xử lý
@@ -30,6 +30,22 @@ public:
 	string BoolToString(bool* a);
 	//Hàm chuyển đổi hệ 10 sang hệ 2
 	bool* DecToBin(QFloat a);
+
+	//LV
+	string PrintQFloat();
+	string ExpString(string a, int n);
+
+	// Hàm x mũ n
+	int PowInt(int x, int n);
+	// Hàm tính phần thực
+	string DivDecimal(int n);
+	// Hàm tính tổng của 2 phần thực
+	string SumDecimal(string a, string b);
+
+	int ZeroNumber(string sign, string exp);
+	int Denormalized(string sign, string exp);
+	int Infinity(string sign, string exp);
+	int NotANumber(string sign, string exp);
 };
 
 
