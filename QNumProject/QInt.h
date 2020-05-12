@@ -66,8 +66,12 @@ public:
 	string BinToHex(bool* bit);
 	//Ham chuyen he 10 sang he 16
 	string DecToHex(QInt a);
+	//Hàm chia nhỏ
+	string Split(QInt a,int i);
 	//Hàm chuyển string đến bool
 	bool* StringToBool(string a);
+	//Hàm chuyển bool đến string
+	string BoolToString(bool* a);
 	//Hàm chia 16
 	char DevHex(string& a);
 };

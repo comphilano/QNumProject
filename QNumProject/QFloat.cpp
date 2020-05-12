@@ -219,3 +219,60 @@ int QFloat::ChuanHoaChuoi(string& s)
 	if (s == "-0.0" || s == "-0") s = "0.0"; 
 	return 0;
 }
+//Hàm chuyển đổi hệ 2 sang hệ 10
+QFloat QFloat::BinToDec(bool* bit)
+{
+	string source = BoolToString(bit);
+	for (int i = 0; i < source.length(); i++)
+	{
+		if (bit[i] == true)
+		{
+			setBit(1, i);
+		}
+		else
+		{
+			setBit(0, i);
+		}
+	}
+	return *this;
+}
+//Hàm chuyển đổi hệ 10 sang 2
+bool* QFloat::DecToBin(QFloat a)
+{
+	bool* det = new bool[127];
+	for (int i = 0; i < 128; i++)
+	{
+		int bit = a.getBit(i);
+		if (bit == 1)
+			det[i] = true;
+		else
+			det[i] = false;
+	}
+	return det;
+}
+
+
+
+//Hàm chuyển bool đến string
+string QFloat::BoolToString(bool* a)
+{
+	string det;
+	int length = 0;
+	bool* temp = new bool;
+	int j = 0;
+	temp = a;
+	while ((temp[j] == false) || (temp[j] == true))
+	{
+		j++;
+	}
+	for (int i = 0; i < j; i++)
+	{
+		if (a[i] == true)
+			det.push_back('1');
+		else
+			det.push_back('0');
+	}
+	for(int i = j;i < 128;i++)
+		det.push_back('0');
+	return det;
+}

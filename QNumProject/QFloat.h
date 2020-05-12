@@ -24,6 +24,12 @@ public:
 	
 	//Hàm chuẩn hóa chuỗi
 	int ChuanHoaChuoi(string& s);
+	//Hàm chuyển đổi hệ 2 sang hệ 10
+	QFloat BinToDec(bool* bit);
+	//Hàm chuyển bool đến string
+	string BoolToString(bool* a);
+	//Hàm chuyển đổi hệ 10 sang hệ 2
+	bool* DecToBin(QFloat a);
 };
 
 

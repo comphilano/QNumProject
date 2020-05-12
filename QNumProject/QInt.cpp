@@ -904,66 +904,52 @@ bool* QInt::DecToBin(QInt x)
 	{
 		int bit = x.getBit(i);
 		if (bit == 1)
-			a[i] = true;
+			a[128 - i] = true;
 		else
-			a[i] = false;
+			a[128- i] = false;
 	}
 	return a;
 }
 
-//QInt QInt::BinToDeC(bool* bit)
-//{
-//	for (int i = 0; i < length;i++)
-//	{
-//		if (bit[i] == true)
-//			setBit(1, i);
-//		else
-//			setBit(0, i);
-//	}
-//	return *this;
-//}
+QInt QInt::BinToDeC(bool* bit)
+{
+	string convert = BoolToString(bit);
+	for (int i = 0; i < convert.length();i++)
+	{
+		if (bit[i] == true)
+		{
+			setBit(1, i);
+		}
+		else
+		{
+			setBit(0, i);
+		}
+	}
+	for (int i = convert.length(); i< 128;i++)
+	{
+		setBit(0, i);
+	}
+	return *this;
+}
 string QInt::BinToHex(bool* bit)
 {
 	string sum = "0";
 	string temp,final;
-	if (getBit(127) == 0)
+	int j = 0;
+	int m = 0;
+	for (int k = 0; k < 15; k++)
 	{
-		for (int i = 0; i < 128; i++)
+		sum = Split(*this, j);
+		temp = sum;
+		cout << "Temp  " << temp << endl;
+		if (sum.length() == 1)
 		{
-			int bit = getBit(i);
-			if (bit == 1)
-			{
-				sum = SumString(sum, ExpString("2", i));
-			}
+			final.insert(final.begin(), DevHex(temp));
 		}
-
-	}
-	else
-	{
-		QInt a = *this;
-		a.data[0] = ~a.data[0];
-		a.data[1] = ~a.data[1];
-		a.data[2] = ~a.data[2];
-		a.data[3] = ~a.data[3];
-		QInt b = 1;
-		a = a + 1;
-		for (int i = 0; i < 128; i++)
+		else
 		{
-			int bit = a.getBit(i);
-			if (bit == 1)
-			{
-				sum = a.SumString(sum, ExpString("2", i));
-			}
-		}
-		sum.insert(sum.begin(), '-');
-	}
-	temp = sum;
-	if (temp.length() == 1)
-		return temp;
-	else
-	{
-		string oldtemp = temp;
-		for (int i = 0; i < sum.length(); i++)
+			string oldtemp = temp;
+			for (int i = 0; i < sum.length(); i++)
 			{
 				final.insert(final.begin(), DevHex(temp));
 				if (oldtemp == temp)
@@ -971,8 +957,11 @@ string QInt::BinToHex(bool* bit)
 				else
 					oldtemp = temp;
 			}
-
-
+		}
+		while (final[0] == 48)
+			final.erase(final.begin());
+		cout << final << endl;
+		j += 8;
 	}
 	return final;
 }
@@ -1030,15 +1019,22 @@ char QInt::DevHex(string& sou)
 
 string QInt::DecToHex(QInt a)
 {
-	string sum, temp,final;
-	sum = a.PrintQInt();
-	temp = sum;
-	if (sum.length() == 1)
-		return temp;
-	else
+	string sum, temp,final;	
+	int j = 0;
+	int m = 0;
+	for (int k = 0; k < 15; k ++)
 	{
-		string oldtemp = temp;
-		for (int i = 0; i < sum.length(); i++)
+		sum = a.Split(a, j);
+		temp = sum;
+		cout << "Temp  " << temp << endl;
+		if (sum.length() == 1)
+		{
+			final.insert(final.begin(), DevHex(temp));
+		}
+		else
+		{
+			string oldtemp = temp;
+			for (int i = 0; i < sum.length(); i++)
 			{
 				final.insert(final.begin(), DevHex(temp));
 				if (oldtemp == temp)
@@ -1046,9 +1042,37 @@ string QInt::DecToHex(QInt a)
 				else
 					oldtemp = temp;
 			}
-		
+		}
+		while (final[0] == 48)
+			final.erase(final.begin());
+		cout << final << endl;
+		j += 8;
 	}
 	return final;
+}
+//Hàm chia nhỏ
+string QInt::Split(QInt a, int pos)
+{
+	QInt dec;
+	int j = 0;
+	for (int i = pos; i < pos + 8; i++)
+	{
+		int bit = getBit(i);
+		if (bit == 1)
+		{
+			dec.setBit(1, j);
+			j++;
+		}
+		else
+		{
+			dec.setBit(0, j);
+			j++;
+		}
+	}
+	for (int i = j; i < 128; i++)
+		dec.setBit(0, i);
+	cout << dec.PrintQInt() << endl;
+	return dec.PrintQInt();
 }
 
 
@@ -1062,9 +1086,31 @@ bool* QInt::StringToBool(string a)
 	for (int i = 0; i < length; i++)
 	{
 		if (a[i] == 48)
-			det[i] = 1;
+			det[i] = 0;
 		else
-			det[i] = true;
+			det[i] = 1;
+	}
+	return det;
+}
+
+//Hàm Bool đến string
+string QInt::BoolToString(bool* a)
+{
+	string det;
+	int length = 0;
+	bool* temp = new bool;
+	int j = 0;
+	temp = a;
+	while( (temp[j] == false) || (temp[j] == true))
+	{
+		j++;
+	}
+	for (int i = 0; i < j; i++)
+	{
+		if (a[i] == true)
+			det.push_back('1');
+		else
+			det.push_back('0');
 	}
 	return det;
 }
