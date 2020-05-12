@@ -5,10 +5,18 @@
 #include<conio.h>
 void main()
 {
-	string temp;
-	QInt a;
-	temp = "ABC";
-	a = a.HexToDec(temp);
-	cout << a.PrintQInt();
+	Menu m;
+	m.HomeScreen();
+	cout << "Nhan Enter de ket thuc." << endl;
+	//QInt a;
+	//a.ScanQInt();
+	//for (int i = 127; i >= 0; i--)
+	//{
+	//	cout << a.getBit(i);
+	//	if (i % 32 == 0)
+	//	{
+	//		cout << "\n";
+	//	}
+	//}
 	_getch();
 }

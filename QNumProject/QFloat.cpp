@@ -124,58 +124,140 @@ void QFloat::ScanQFloat()
 		am = 1;
 		nguyen.erase(nguyen.begin());
 	}
+	if (nguyen == "0" && thuc == "00")
+	{
+		return;
+	}
 	QInt a(nguyen);
-	int i = 127;
-	while (a.getBit(i) == 0)
+	if (nguyen == "0")
 	{
-		i--;
-	}
-	int tam = i;
-	i--;
-	int j = 127 - 16;
-	for (i; i >= 0; i--)
-	{
-		int bit = a.getBit(i);
-		setBit(bit, j);
-		j--;
-	}
-	while (j >= 0)
-	{
-		if (thuc == DoubleString(thuc))
+		string x;
+		int dem = 1;
+		while (dem <= 112)
 		{
-			break;
-		}
-		else
-		{
-			thuc = DoubleString(thuc);
-			if (thuc[0] == '1')
+			if (thuc == DoubleString(thuc))
 			{
-				setBit(1, j);
-				thuc[0] = '0';
+				break;
 			}
 			else
 			{
-				setBit(0, j);
+				thuc = DoubleString(thuc);
+				if (thuc[0] == '1')
+				{
+					x.push_back('1');
+					thuc[0] = '0';
+					break;
+				}
+				else
+				{
+					x.push_back('0');
+				}
 			}
+			dem++;
 		}
-		j--;
-	}
-	QInt exp(tam + 16383);
-	int pos = 126;
-	for (int i = 14; i >= 0; i--)
-	{
-		int bit = exp.getBit(i);
-		setBit(bit, pos);
-		pos--;
-	}
-	if (am == 1)
-	{
-		setBit(1, 127);
+		int dodoi = dem;
+		int j = 111;
+		while (j >= 0)
+		{
+			if (thuc == DoubleString(thuc))
+			{
+				break;
+			}
+			else
+			{
+				thuc = DoubleString(thuc);
+				if (thuc[0] == '1')
+				{
+					setBit(1, j);
+					thuc[0] = '0';
+				}
+				else
+				{
+					setBit(0, j);
+				}
+			}
+			j--;
+		}
+		if (j == -1)
+		{
+			setBit(1, 0);
+		}
+		QInt exp(16383 - dodoi);
+		int pos = 126;
+		for (int i = 14; i >= 0; i--)
+		{
+			int bit = exp.getBit(i);
+			setBit(bit, pos);
+			pos--;
+		}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
 	}
 	else
 	{
-		setBit(0, 127);
+		int i = 127;
+		while (a.getBit(i) == 0)
+		{
+			i--;
+		}
+		int tam = i;
+		i--;
+		int j = 127 - 16;
+		for (i; i >= 0; i--)
+		{
+			int bit = a.getBit(i);
+			setBit(bit, j);
+			j--;
+		}
+		while (j >= 0)
+		{
+			if (thuc == DoubleString(thuc))
+			{
+				break;
+			}
+			else
+			{
+				thuc = DoubleString(thuc);
+				if (thuc[0] == '1')
+				{
+					setBit(1, j);
+					thuc[0] = '0';
+				}
+				else
+				{
+					setBit(0, j);
+				}
+			}
+			j--;
+		}
+		if (j == -1)
+		{
+			setBit(1, 0);
+		}
+		QInt exp(tam + 16383);
+		int pos = 126;
+		for (int i = 14; i >= 0; i--)
+		{
+			int bit = exp.getBit(i);
+			setBit(bit, pos);
+			pos--;
+		}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
 	}
+
 }
 
 //Hàm chuẩn hóa chuỗi
@@ -275,4 +357,434 @@ string QFloat::BoolToString(bool* a)
 	for(int i = j;i < 128;i++)
 		det.push_back('0');
 	return det;
+}
+
+///////////////////////////////////////////////////////
+string QFloat::PrintQFloat()
+{
+	string bit, phanNguyen, phanThuc;
+	for (int i = 127; i >= 0; i--)			// Chuyển các bit của data vào string bit
+	{
+		if (getBit(i) == 0)
+			bit = bit + '0';
+		else
+			bit = bit + '1';
+	}
+
+	string ktExp, ktSign;
+
+	ktSign = ktSign + bit[0];
+	for (int i = 1; i <= 15; i++)
+	{
+		ktExp = ktExp + bit[i];
+	}
+
+	if (ZeroNumber(ktSign, ktExp) == 1)
+		return "0.0";
+	else
+		if (Denormalized(ktSign, ktExp) == 1)
+			return "Denormalized";
+		else
+			if (Infinity(ktSign, ktExp) == 1)
+				return "Infinity";
+			else
+				if (NotANumber(ktSign, ktExp) == 1)
+					return "Not a Number";
+
+	int exp = 0;							// Tính số E từ exp 
+	for (int i = 15; i >= 1; i--)
+	{
+		if (bit[i] == '1')
+		{
+			exp = exp + PowInt(2, 15 - i);
+		}
+	}
+	exp = exp - 16383;
+
+	string frac;   // chu y xu ly frac bang 0
+	for (int i = 16; i <= 127; i++)
+	{
+		frac = frac + bit[i];
+	}
+
+
+
+	if (exp == 0)		//Trường hợp E = 0
+	{
+		phanNguyen = phanNguyen + '1';
+		phanThuc = phanThuc + frac;
+	}
+	else
+		if (exp > 0)			// Trường hợp E > 0
+		{
+			phanNguyen = phanNguyen + '1';
+			for (int i = 1; i <= exp; i++)
+			{
+				if (frac.length() > 0)
+				{
+					phanNguyen = phanNguyen + frac[0];
+					frac.erase(frac.begin());
+				}
+				else
+				{
+					phanNguyen = phanNguyen + '0';
+				}
+			}
+		}
+		else
+			if (exp < 0)		// Trường hợp E < 0
+			{
+				if (exp == -1)
+				{
+					phanNguyen = phanNguyen + '0';
+					frac = '1' + frac;
+				}
+				else
+				{
+					phanNguyen = phanNguyen + '0';
+					frac = '1' + frac;
+
+					for (int i = 1; i < abs(exp); i++)
+					{
+						frac = '0' + frac;
+					}
+				}
+			}
+
+
+	string ans = "0";
+
+	int count = 0;
+	for (int i = phanNguyen.length() - 1; i >= 0; i--)		// Chuyển phần nguyên từ hệ 2 sang 10
+	{
+		if (phanNguyen[i] == '1')
+		{
+			ans = SumString(ans, ExpString("2", count));
+		}
+		count++;
+	}
+
+
+	if (bit[0] == '1')
+		ans = '-' + ans;
+
+	string tongPhanThuc = "0";			// Tính tổng phần thực từ hệ 2 sang 10
+	if (frac.length() != 0)
+	{
+		for (int i = 0; i < frac.length(); i++)
+		{
+			if (frac[i] == '1')
+			{
+				tongPhanThuc = SumDecimal(tongPhanThuc, DivDecimal(i + 1));
+			}
+		}
+	}
+
+	ans = ans + '.';				// Kết quả cuối
+	while (tongPhanThuc.length() > 15) // Lấy 15 số sau dấu phẩy
+	{
+		tongPhanThuc.pop_back();
+	}
+	ans = ans + tongPhanThuc;
+	cout << ans << endl;
+
+	return ans;
+}
+
+string QFloat::ExpString(string a, int n)
+{
+	string ans = a;
+	if (n == 0)
+	{
+		return "1";
+	}
+	for (int i = 1; i < n; i++)
+	{
+		ans = DoubleString(ans);
+	}
+	return  ans;
+}
+
+int QFloat::PowInt(int x, int n)
+{
+	if (n == 0)
+		return 1;
+
+	int num = 1;
+	for (int i = 1; i <= n; i++)
+		num = num * x;
+
+	return num;
+}
+
+string QFloat::DivDecimal(int n)
+{
+	string ans = "0";
+	if (n == 1)
+	{
+		ans = SumString(ans, "5");
+		return ans;
+	}
+
+	string temp = "5";
+	for (int i = 2; i <= n; i++)
+	{
+		for (int j = 1; j <= 5; j++)
+		{
+			ans = SumString(ans, temp);
+		}
+		temp = ans;
+		ans = "0";
+	}
+
+	while (temp.length() != n)
+	{
+		temp = '0' + temp;
+	}
+	return temp;
+}
+
+string QFloat::SumDecimal(string a, string b)
+{
+	string ans;
+
+	if (a.length() > b.length())
+	{
+		string temp;
+		for (int i = 0; i < b.length(); i++)
+		{
+			temp = temp + a[i];
+		}
+		ans = SumString(temp, b);
+		for (int i = b.length(); i < a.length(); i++)
+		{
+			ans = ans + a[i];
+		}
+	}
+	else
+		if (a.length() < b.length())
+		{
+			string temp;
+			for (int i = 0; i < a.length(); i++)
+			{
+				temp = temp + b[i];
+			}
+			ans = SumString(temp, a);
+			for (int i = a.length(); i < b.length(); i++)
+			{
+				ans = ans + b[i];
+			}
+		}
+		else
+		{
+			ans = SumString(a, b);
+		}
+
+	return ans;
+}
+
+int QFloat::ZeroNumber(string sign, string exp)
+{
+	if (sign[0] != '0')
+		return 0;
+	for (int i = 0; i < exp.length(); i++)
+	{
+		if (exp[i] != '0')
+			return 0;
+	}
+	return 1;
+}
+
+int QFloat::Denormalized(string sign, string exp)
+{
+	if (sign[0] == '0')
+		return 0;
+	for (int i = 0; i < exp.length(); i++)
+	{
+		if (exp[i] != '0')
+			return 0;
+	}
+	return 1;
+}
+
+int QFloat::Infinity(string sign, string exp)
+{
+
+	if (sign[0] == '1')
+		return 0;
+	for (int i = 0; i < exp.length(); i++)
+	{
+		if (exp[i] == '0')
+			return 0;
+	}
+	return 1;
+}
+
+int QFloat::NotANumber(string sign, string exp)
+{
+	if (sign[0] == '0')
+		return 0;
+	for (int i = 0; i < exp.length(); i++)
+	{
+		if (exp[i] == '0')
+			return 0;
+	}
+	return 1;
+}
+/////////////////////////////////
+
+
+
+
+//Hàm khởi tạo với giá trị string
+
+QFloat::QFloat(string x)
+{
+	for (int i = 127; i >= 0; i--)
+	{
+		setBit(0, i);
+	}
+	int am = 0;
+	string nguyen;
+	string thuc;
+	ChiaChuoi(x, nguyen, thuc);
+	if (nguyen[0] == '-')
+	{
+		am = 1;
+		nguyen.erase(nguyen.begin());
+	}
+	if (nguyen == "0" && thuc == "00")
+	{
+		return;
+	}
+	QInt a(nguyen);
+	if (nguyen == "0")
+	{
+		string x;
+		int dem = 1;
+		while (dem <= 112)
+		{
+			if (thuc == DoubleString(thuc))
+			{
+				break;
+			}
+			else
+			{
+				thuc = DoubleString(thuc);
+				if (thuc[0] == '1')
+				{
+					x.push_back('1');
+					thuc[0] = '0';
+					break;
+				}
+				else
+				{
+					x.push_back('0');
+				}
+			}
+			dem++;
+		}
+		int dodoi = dem;
+		int j = 111;
+		while (j >= 0)
+		{
+			if (thuc == DoubleString(thuc))
+			{
+				break;
+			}
+			else
+			{
+				thuc = DoubleString(thuc);
+				if (thuc[0] == '1')
+				{
+					setBit(1, j);
+					thuc[0] = '0';
+				}
+				else
+				{
+					setBit(0, j);
+				}
+			}
+			j--;
+		}
+		if (j == -1)
+		{
+			setBit(1, 0);
+		}
+		QInt exp(16383 - dodoi);
+		int pos = 126;
+		for (int i = 14; i >= 0; i--)
+		{
+			int bit = exp.getBit(i);
+			setBit(bit, pos);
+			pos--;
+		}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
+	}
+	else
+	{
+		int i = 127;
+		while (a.getBit(i) == 0)
+		{
+			i--;
+		}
+		int tam = i;
+		i--;
+		int j = 127 - 16;
+		for (i; i >= 0; i--)
+		{
+			int bit = a.getBit(i);
+			setBit(bit, j);
+			j--;
+		}
+		while (j >= 0)
+		{
+			if (thuc == DoubleString(thuc))
+			{
+				break;
+			}
+			else
+			{
+				thuc = DoubleString(thuc);
+				if (thuc[0] == '1')
+				{
+					setBit(1, j);
+					thuc[0] = '0';
+				}
+				else
+				{
+					setBit(0, j);
+				}
+			}
+			j--;
+		}
+		if (j == -1)
+		{
+			setBit(1, 0);
+		}
+		QInt exp(tam + 16383);
+		int pos = 126;
+		for (int i = 14; i >= 0; i--)
+		{
+			int bit = exp.getBit(i);
+			setBit(bit, pos);
+			pos--;
+		}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
+	}
+
 }
