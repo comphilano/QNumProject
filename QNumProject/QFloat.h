@@ -48,6 +48,7 @@ public:
 	int NotANumber(string sign, string exp);
 
 	string PrintBin(QFloat a);
+	void DaoChuoi(string& a);
 };
 
 

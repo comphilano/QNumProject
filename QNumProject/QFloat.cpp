@@ -307,7 +307,7 @@ QFloat QFloat::BinToDec(bool* bit)
 	string source = BoolToString(bit);
 	for (int i = 0; i < source.length(); i++)
 	{
-		if (bit[i] == true)
+		if (bit[127 - i] == true)
 		{
 			setBit(1, i);
 		}
@@ -801,5 +801,18 @@ string QFloat::PrintBin(QFloat a)
 		else
 			dec.push_back('0');
 	}
+	DaoChuoi(dec);
 	return dec;
+}
+
+//Hàm đảo chuỗi
+
+void QFloat::DaoChuoi(string& a)
+{
+	string b;
+	for (int i = a.length() - 1; i >= 0; i--)
+	{
+		b.push_back(a[i]);
+	}
+	a = b;
 }

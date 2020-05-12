@@ -1030,10 +1030,10 @@ std::string StringReverse(std::string s) {
 
 string QInt::DecToHex(QInt a)
 {
-	string sum, temp,final;	
+	string sum, temp, final;
 	int j = 0;
 	int m = 0;
-	for (int k = 0; k < 15; k ++)
+	for (int k = 0; k < 15; k++)
 	{
 		sum = a.Split(a, j);
 		temp = sum;
@@ -1053,10 +1053,15 @@ string QInt::DecToHex(QInt a)
 					oldtemp = temp;
 			}
 		}
-		while (final[0] == 48)
+		int check = final.length() - (k + 1) * 2;
+		if (check == 1)
 			final.erase(final.begin());
+		if (check == -1)
+			final.insert(final.begin(), '0');
 		j += 8;
 	}
+	while (final[0] == 48)
+		final.erase(final.begin());
 	return final;
 }
 //Hàm chuyển hệ 16 sang hệ 10
