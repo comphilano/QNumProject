@@ -257,7 +257,7 @@ void Menu::ChuyenDoiQInt()
 		bool* he2;
 		he2 = x1.DecToBin(x1);
 		string a;
-		a = x1.BoolToString(he2);
+		a = x1.PrintBin(x1);
 		cout << a;
 	}
 	if (coso2 == 10)
@@ -409,7 +409,7 @@ void Menu::TinhToanQInt()
 			bool* he2;
 			he2 = x2.DecToBin(x2);
 			string a;
-			a = x1.BoolToString(he2);
+			a = x2.PrintBin(x2);
 			cout << "\nDAP AN: " << a;
 		}
 		if (coso1 == 10)
@@ -549,7 +549,7 @@ void Menu::TinhToanQInt()
 		bool* he2;
 		he2 = x3.DecToBin(x3);
 		string kq;
-		kq = x3.BoolToString(he2);
+		kq = x3.PrintBin(x3);
 		cout << kq;
 	}
 	if (coso1 == 10)
@@ -700,7 +700,7 @@ void Menu::DichDoiQInt()
 		bool* he2;
 		he2 = x1.DecToBin(x1);
 		string kq;
-		kq = x1.BoolToString(he2);
+		kq = x1.PrintBin(x1);
 		cout << kq;
 	}
 	if (coso1 == 10)
@@ -872,7 +872,7 @@ void Menu::ChuyenDoiQFloat()
 		bool* he2;
 		he2 = x1.DecToBin(x1);
 		string kq;
-		kq = tam.BoolToString(he2);
+		kq = x1.PrintBin(x1);
 		cout << kq;
 	}
 	if (coso2 == 10)

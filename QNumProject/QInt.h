@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include<iostream>
+#include<conio.h>
 
 class Error{};
 class DividedByZero : public Error{};
@@ -76,5 +77,6 @@ public:
 	char DevHex(string& a);
 	//Hàm chuyển từ hệ 16 sang hệ 10
 	QInt HexToDec(string a);
+	string PrintBin(QInt a);
 };
 std::string StringReverse(std::string);

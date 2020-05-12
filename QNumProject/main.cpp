@@ -7,9 +7,12 @@
 
 void main(int argc, char* argv[])
 {
-  XuLiCMD(argc, argv);
-  FileManip x;
-  x.Manip("d:\\alo2.txt", "d:\\nac2.txt", "float");
-  QFloat z("0.1");
-  cout << z.PrintQFloat();
+  //XuLiCMD(argc, argv);
+  //FileManip x;
+  //x.Manip("d:\\alo2.txt", "d:\\nac2.txt", "int");
+  //QFloat z("0.1");
+  //cout << z.PrintQFloat();
+	Menu m;
+	m.HomeScreen();
+	_getch();
 }

@@ -366,11 +366,16 @@ QInt QInt::operator<<(int value)
 
 QInt QInt::operator>>(int value)
 {
+	int dau = getBit(127);
 	QInt ans;
 	for (int i = 0; i < 128 - value; i++)
 	{
 		int bit = getBit(i + value);
 		ans.setBit(bit, i);
+	}
+	for (int i = 127; i >= 127 - value; i--)
+	{
+		ans.setBit(dau, i);
 	}
 	return ans;
 }
@@ -1062,41 +1067,150 @@ QInt QInt::HexToDec(string a)
 	int pos = 0;
 	for (int i = length - 1; i >= 0; i--)
 	{
-		if (a[i] < 58)
-			temp = a[i];
-		else
+		switch (a[i])
 		{
-			switch (a[i])
-			{
-			case 65:
-				temp = "10";
-				break;
-			case 66:
-				temp = "11";
-				break;
-			case 67:
-				temp = "12";
-				break;
-			case 68:
-				temp = "13";
-				break;
-			case 69:
-				temp = "14";
-				break;
-			case 70:
-				temp = "15";
-				break;
-			default:
-				break;
-			}
+		case 48:
+		{
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
 		}
-		while (temp[0] != '0')
+		break;
+		case 49:
 		{
-			int du = HalfString(temp);
-			setBit(du, pos);
-			pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+		}
+		break;
+		case 50:
+		{
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+		}
+		break;
+		case 51:
+		{
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+		}
+		break;
+		case 52:
+		{
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+		}
+		break;
+		case 53:
+		{
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+		}
+		break;
+		case 54:
+		{
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+		}
+		break;
+		case 55:
+		{
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+		}
+		break;
+		case 56:
+		{
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		case 57:
+		{
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		case 65:
+		{
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		case 66:
+		{
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		case 67:
+		{
+			setBit(0, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		case 68:
+		{
+			setBit(1, pos); pos++;
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		case 69:
+		{
+			setBit(0, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		case 70:
+		{
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+			setBit(1, pos); pos++;
+		}
+		break;
+		default:
+			break;
 		}
 	}
+	for (int i = 127; i >= 0; i--)
+	{
+		cout << getBit(i);
+		if (i % 127 == 0)
+		{
+			cout << endl;
+		}
+
+	}
+	_getch();
 	return *this;
 }
 //Hàm chia nhỏ
@@ -1209,5 +1323,23 @@ QInt::QInt(string a)
 		}
 
 	}
+}
+
+//Hàm Print bin
+string QInt::PrintBin(QInt a)
+{
+	bool* bit = new bool[128];
+	bit = a.DecToBin(a);
+	string dec;
+	for (int i = 0; i < 128; i++)
+	{
+		if (bit[i] == true)
+			dec.push_back('1');
+		else
+			dec.push_back('0');
+	}
+	while (dec[0] == 48)
+		dec.erase(dec.begin());
+	return dec;
 }
 

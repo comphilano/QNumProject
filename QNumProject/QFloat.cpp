@@ -178,10 +178,10 @@ void QFloat::ScanQFloat()
 			}
 			j--;
 		}
-		if (j == -1)
-		{
-			setBit(1, 0);
-		}
+		//if (j == -1)
+		//{
+		//	setBit(1, 0);
+		//}
 		QInt exp(16383 - dodoi);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -190,14 +190,14 @@ void QFloat::ScanQFloat()
 			setBit(bit, pos);
 			pos--;
 		}
-		//if (am == 1)
-		//{
-		//	setBit(1, 127);
-		//}
-		//else
-		//{
-		//	setBit(0, 127);
-		//}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
 	}
 	else
 	{
@@ -236,10 +236,10 @@ void QFloat::ScanQFloat()
 			}
 			j--;
 		}
-		if (j == -1)
-		{
-			setBit(1, 0);
-		}
+		//if (j == -1)
+		//{
+		//	setBit(1, 0);
+		//}
 		QInt exp(tam + 16383);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -248,14 +248,14 @@ void QFloat::ScanQFloat()
 			setBit(bit, pos);
 			pos--;
 		}
-		//if (am == 1)
-		//{
-		//	setBit(1, 127);
-		//}
-		//else
-		//{
-		//	setBit(0, 127);
-		//}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
 	}
 
 }
@@ -707,10 +707,10 @@ QFloat::QFloat(string x)
 			}
 			j--;
 		}
-		if (j == -1)
-		{
-			setBit(1, 0);
-		}
+		//if (j == -1)
+		//{
+		//	setBit(1, 0);
+		//}
 		QInt exp(16383 - dodoi);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -719,14 +719,14 @@ QFloat::QFloat(string x)
 			setBit(bit, pos);
 			pos--;
 		}
-		//if (am == 1)
-		//{
-		//	setBit(1, 127);
-		//}
-		//else
-		//{
-		//	setBit(0, 127);
-		//}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
 	}
 	else
 	{
@@ -765,10 +765,10 @@ QFloat::QFloat(string x)
 			}
 			j--;
 		}
-		if (j == -1)
-		{
-			setBit(1, 0);
-		}
+		//if (j == -1)
+		//{
+		//	setBit(1, 0);
+		//}
 		QInt exp(tam + 16383);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -777,14 +777,29 @@ QFloat::QFloat(string x)
 			setBit(bit, pos);
 			pos--;
 		}
-		//if (am == 1)
-		//{
-		//	setBit(1, 127);
-		//}
-		//else
-		//{
-		//	setBit(0, 127);
-		//}
+		if (am == 1)
+		{
+			setBit(1, 127);
+		}
+		else
+		{
+			setBit(0, 127);
+		}
 	}
 
+}
+
+string QFloat::PrintBin(QFloat a)
+{
+	bool* bit = new bool[128];
+	bit = a.DecToBin(a);
+	string dec;
+	for (int i = 0; i < 128; i++)
+	{
+		if (bit[i] == true)
+			dec.push_back('1');
+		else
+			dec.push_back('0');
+	}
+	return dec;
 }

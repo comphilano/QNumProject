@@ -46,6 +46,8 @@ public:
 	int Denormalized(string sign, string exp);
 	int Infinity(string sign, string exp);
 	int NotANumber(string sign, string exp);
+
+	string PrintBin(QFloat a);
 };
 
 
