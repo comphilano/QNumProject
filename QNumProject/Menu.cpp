@@ -925,6 +925,7 @@ mainmenu:
 			if (b == 0)
 			{
 				ChuyenDoiQFloat();
+				_getch();
 			}
 			else if (b == 1)
 			{

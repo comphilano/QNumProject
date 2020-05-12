@@ -190,14 +190,14 @@ void QFloat::ScanQFloat()
 			setBit(bit, pos);
 			pos--;
 		}
-		if (am == 1)
-		{
-			setBit(1, 127);
-		}
-		else
-		{
-			setBit(0, 127);
-		}
+		//if (am == 1)
+		//{
+		//	setBit(1, 127);
+		//}
+		//else
+		//{
+		//	setBit(0, 127);
+		//}
 	}
 	else
 	{
@@ -248,14 +248,14 @@ void QFloat::ScanQFloat()
 			setBit(bit, pos);
 			pos--;
 		}
-		if (am == 1)
-		{
-			setBit(1, 127);
-		}
-		else
-		{
-			setBit(0, 127);
-		}
+		//if (am == 1)
+		//{
+		//	setBit(1, 127);
+		//}
+		//else
+		//{
+		//	setBit(0, 127);
+		//}
 	}
 
 }
@@ -719,14 +719,14 @@ QFloat::QFloat(string x)
 			setBit(bit, pos);
 			pos--;
 		}
-		if (am == 1)
-		{
-			setBit(1, 127);
-		}
-		else
-		{
-			setBit(0, 127);
-		}
+		//if (am == 1)
+		//{
+		//	setBit(1, 127);
+		//}
+		//else
+		//{
+		//	setBit(0, 127);
+		//}
 	}
 	else
 	{
@@ -777,14 +777,14 @@ QFloat::QFloat(string x)
 			setBit(bit, pos);
 			pos--;
 		}
-		if (am == 1)
-		{
-			setBit(1, 127);
-		}
-		else
-		{
-			setBit(0, 127);
-		}
+		//if (am == 1)
+		//{
+		//	setBit(1, 127);
+		//}
+		//else
+		//{
+		//	setBit(0, 127);
+		//}
 	}
 
 }
