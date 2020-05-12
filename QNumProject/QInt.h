@@ -76,6 +76,5 @@ public:
 	char DevHex(string& a);
 	//Hàm chuyển từ hệ 16 sang hệ 10
 	QInt HexToDec(string a);
-	std::string StringReverse(std::string);
 };
-
+std::string StringReverse(std::string);

@@ -116,22 +116,25 @@ std::string FileManip::Process() {
     bool* arr_2;
     if (base_1_ == 2) {
       arr_1 = StrBinToArr(operand_1_);
-      if (operand_2_ != "");
-      arr_2 = StrBinToArr(operand_2_);
+      x.BinToDec(arr_1);
+      if (operand_2_ != "") {
+        arr_2 = StrBinToArr(operand_2_);
+        y.BinToDec(arr_2);
+      }
     } else
       if (base_1_ == 10) {
-        //QFloat t1(operand_1_);
-        //x = t1;
-        //if (operand_2_ != "") {
-        //  QFloat t2(operand_2_);
-        //  y = t2;
-        //}
+        QFloat t1(operand_1_);
+        x = t1;
+        if (operand_2_ != "") {
+          QFloat t2(operand_2_);
+          y = t2;
+        }
       }
     if (op_ == "") { //Chuyen co so
-      if (base_2_ == 10);
-       // return x.PrintQFloat(x);
+      if (base_2_ == 10)
+        return x.PrintQFloat();
       else
-        return ArrBinToStr(x.DecToBin(x));
+        return StringReverse(ArrBinToStr(x.DecToBin(x), 1));
     }
   }
   return "";
@@ -180,9 +183,11 @@ bool* StrBinToArr(std::string s) {
   return x;
 }
 
-std::string ArrBinToStr(bool* b) {
+std::string ArrBinToStr(bool* b, bool keep_zero) {
   std::string s;
   bool flag = false;
+  if (keep_zero)
+    flag = true;
   for (int i = 0; i < 128; i++) {
     if (b[i] == 1)
       flag = true;

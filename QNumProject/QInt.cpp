@@ -1016,7 +1016,7 @@ char QInt::DevHex(string& sou)
 		return du + 48;
 }
 
-std::string QInt::StringReverse(std::string s) {
+std::string StringReverse(std::string s) {
   std::string res;
   for (int i = s.length() - 1; i >= 0; i--)
 	res = res + s[i];

@@ -28,6 +28,6 @@ bool IsOperator(std::string);
 //Chuyen chuoi bit thanh mang bit
 bool* StrBinToArr(std::string);
 //Chuyen mang bit thanh chuoi bit
-std::string ArrBinToStr(bool*);
+std::string ArrBinToStr(bool*, bool keep_zero = 0);
 //Xu li tham so dong lenh
 void XuLiCMD(int argc, char* argv[]);
