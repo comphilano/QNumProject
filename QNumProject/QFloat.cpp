@@ -177,3 +177,102 @@ void QFloat::ScanQFloat()
 		setBit(0, 127);
 	}
 }
+
+//Hàm chuẩn hóa chuỗi
+int QFloat::ChuanHoaChuoi(string& s)
+{
+	int Dau;
+	int k = 0;
+	if (s == "-") return -1;
+
+	//Kiểm tra dấu của dãy số
+	if (s[0] == '-') {
+		Dau = 1;
+		s = s.substr(1, s.length()); //Cắt dấu đi để chuẩn hóa lại chuỗi
+	}
+	else Dau = 0;
+
+	if (s[0] == '.' || s[s.length() - 1] == '.') return -1;
+
+	do	//Loại bỏ các số 0 ở đầu phần nguyên
+	{
+		if (s[0] == '0' && s[1] == '.') break;
+		if (s.length() == 1 && s[0] == '0') break;
+		if (s[0] == '0') s = s.substr(1, s.length());
+	} while (s[0] == '0');
+
+	if (Dau == 1) s = "-" + s;	//Thêm lại dấu vào chuỗi nếu chuỗi ban đầu chứa dấu
+	
+	for (int i = Dau; i < s.length(); i++) {
+		if ((s[i] < 47 || s[i] > 58) && s[i] != '.')
+			return -1;
+		if (s[i] == '.') k += 1;	//Trường hợp chuỗi có hơn một dấu '.'
+		if (k > 1) return -1;
+		if (s[i] == '.') {		//Loại bỏ các số 0 ở cuối phần thực
+			for (int j = s.length() - 1; j > (i + 1); j--) {
+				if (s[j] == '0') s = s.substr(0, s.length() - 1);
+				else break;
+			}
+		}
+	}
+	if (k == 0) s = s + ".0";
+	if (s == "-0.0" || s == "-0") s = "0.0"; 
+	return 0;
+}
+//Hàm chuyển đổi hệ 2 sang hệ 10
+QFloat QFloat::BinToDec(bool* bit)
+{
+	string source = BoolToString(bit);
+	for (int i = 0; i < source.length(); i++)
+	{
+		if (bit[i] == true)
+		{
+			setBit(1, i);
+		}
+		else
+		{
+			setBit(0, i);
+		}
+	}
+	return *this;
+}
+//Hàm chuyển đổi hệ 10 sang 2
+bool* QFloat::DecToBin(QFloat a)
+{
+	bool* det = new bool[127];
+	for (int i = 0; i < 128; i++)
+	{
+		int bit = a.getBit(i);
+		if (bit == 1)
+			det[i] = true;
+		else
+			det[i] = false;
+	}
+	return det;
+}
+
+
+
+//Hàm chuyển bool đến string
+string QFloat::BoolToString(bool* a)
+{
+	string det;
+	int length = 0;
+	bool* temp = new bool;
+	int j = 0;
+	temp = a;
+	while ((temp[j] == false) || (temp[j] == true))
+	{
+		j++;
+	}
+	for (int i = 0; i < j; i++)
+	{
+		if (a[i] == true)
+			det.push_back('1');
+		else
+			det.push_back('0');
+	}
+	for(int i = j;i < 128;i++)
+		det.push_back('0');
+	return det;
+}
