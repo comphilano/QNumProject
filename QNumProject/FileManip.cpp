@@ -47,6 +47,10 @@ std::string FileManip::Process() {
           y = t2;
         }
       } else {
+        x.HexToDec(operand_1_);
+        if (operand_2_ != "") {
+          y.HexToDec(operand_2_);
+        }
       }
     if (op_ == "") { //Chuyen co so
        if (base_2_ == 10)

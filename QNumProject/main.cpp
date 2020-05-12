@@ -19,7 +19,7 @@ void main(int argc, char* argv[])
   //QInt x("100");
   //cout << ArrBinToStr(x.DecToBin(x));
   //bool b[4] = { 0,1,1,1 };
-  //QInt x;
-  //x.BinToDeC(b);
-  //cout << x.PrintQInt();
+  QInt z;
+  z.HexToDec("9C448");
+  cout << z.PrintQInt();
 }
