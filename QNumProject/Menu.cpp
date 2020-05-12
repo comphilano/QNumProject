@@ -205,7 +205,8 @@ void Menu::ChuyenDoiQInt()
 	}
 	if (coso1 == 10)
 	{
-		x1 = so1;
+		QInt x2(so1);
+		x1 = x2;
 	}
 	if (coso1 == 16)
 	{

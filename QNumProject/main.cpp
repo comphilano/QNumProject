@@ -7,13 +7,18 @@
 
 void main(int argc, char* argv[])
 {
-  //XuLiCMD(argc, argv);
-  //FileManip x;
-  //x.Manip("d:\\alo2.txt", "d:\\nac2.txt", "int");
-  //QFloat z("0.1");
-  //cout << z.PrintQFloat();
-	Menu m;
-	m.HomeScreen();
-	_getch();
-
+  XuLiCMD(argc, argv);
+  FileManip x;
+  x.Manip("d:\\alo2.txt", "d:\\nac2.txt", "int");
+  QFloat z("0.1");
+  cout << z.PrintQFloat();
+	//QFloat a;
+	//a.ScanQFloat();
+	//for (int i = 0; i < 112; i++)
+	//{
+	//	a.setBit(0, i);
+	//	cout << i << ": ";
+	//	a.PrintQFloat();
+	//}
+	//_getch();
 }

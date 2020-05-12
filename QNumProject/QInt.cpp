@@ -1033,7 +1033,7 @@ string QInt::DecToHex(QInt a)
 	string sum, temp, final;
 	int j = 0;
 	int m = 0;
-	for (int k = 0; k < 15; k++)
+	for (int k = 0; k < 16; k++)
 	{
 		sum = a.Split(a, j);
 		temp = sum;
@@ -1206,16 +1206,6 @@ QInt QInt::HexToDec(string a)
 			break;
 		}
 	}
-	for (int i = 127; i >= 0; i--)
-	{
-		cout << getBit(i);
-		if (i % 127 == 0)
-		{
-			cout << endl;
-		}
-
-	}
-	_getch();
 	return *this;
 }
 //Hàm chia nhỏ
