@@ -1046,6 +1046,51 @@ string QInt::DecToHex(QInt a)
 	}
 	return final;
 }
+//Hàm chuyển hệ 16 sang hệ 10
+QInt QInt::HexToDec(string a)
+{
+	string temp;
+	int length = a.length();
+	int pos = 0;
+	for (int i = length - 1; i >= 0; i--)
+	{
+		if (a[i] < 58)
+			temp = a[i];
+		else
+		{
+			switch (a[i])
+			{
+			case 65:
+				temp = "10";
+				break;
+			case 66:
+				temp = "11";
+				break;
+			case 67:
+				temp = "12";
+				break;
+			case 68:
+				temp = "13";
+				break;
+			case 69:
+				temp = "14";
+				break;
+			case 70:
+				temp = "15";
+				break;
+			default:
+				break;
+			}
+		}
+		while (temp[0] != '0')
+		{
+			int du = HalfString(temp);
+			setBit(du, pos);
+			pos++;
+		}
+	}
+	return *this;
+}
 //Hàm chia nhỏ
 string QInt::Split(QInt a, int pos)
 {

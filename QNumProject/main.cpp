@@ -5,13 +5,10 @@
 #include<conio.h>
 void main()
 {
-	bool* bit = new bool;
+	string temp;
 	QInt a;
-	bit[0] = true;
-	bit[1] = false;
-	bit[2] = false;
-	bit[3] = true;
-	a.ScanQInt();
-	cout << a.BinToHex(bit);
+	temp = "ABC";
+	a = a.HexToDec(temp);
+	cout << a.PrintQInt();
 	_getch();
 }
