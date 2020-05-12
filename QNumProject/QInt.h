@@ -74,6 +74,8 @@ public:
 	string BoolToString(bool* a);
 	//Hàm chia 16
 	char DevHex(string& a);
+	//Hàm chuyển từ hệ 16 sang hệ 10
+	QInt HexToDec(string a);
 	std::string StringReverse(std::string);
 };
 
