@@ -3,15 +3,17 @@
 #include <iostream>
 #include <chrono>
 #include "QInt.h"
+#include "QFloat.h"
 FileManip::FileManip() : type_ { 0 }, base_1_ { 0 }, base_2_ { 0 }, op_ { 0 } {
 }
-void FileManip::Set(std::string type, int base_1, int base_2, std::string operand_1, std::string op, std::string operand_2) {
+std::string FileManip::Calc(std::string type, int base_1, int base_2, std::string operand_1, std::string op, std::string operand_2) {
   type_ = type;
   base_1_ = base_1;
   base_2_ = base_2;
   operand_1_ = operand_1;
   op_ = op;
   operand_2_ = operand_2;
+  return Process();
 }
 void FileManip::Manip(std::string source, std::string result, std::string type) {
   std::ifstream in_f;
@@ -94,17 +96,42 @@ std::string FileManip::Process() {
         return (x.rol(z)).PrintQInt();
       std::string s;
       if (op_ == "<")
-        return s + static_cast<char>((x < y) + '0');
+        return s + (static_cast<char>(x < y) ? "true" : "false");
       if (op_ == ">")
-        return s + static_cast<char>((x > y) + '0');
+        return s + (static_cast<char>(x > y) ? "true" : "false");
       if (op_ == "==")
-        return s + static_cast<char>((x == y) + '0');
+        return s + (static_cast<char>(x == y) ? "true" : "false");
       if (op_ == ">=")
-        return s + static_cast<char>((x >= y) + '0');
+        return s + (static_cast<char>(x >= y) ? "true" : "false");
       if (op_ == "<=")
-        return s + static_cast<char>((x <= y) + '0');
+        return s + (static_cast<char>(x <= y) ? "true" : "false");
     }
-  }
+  } /*else {
+    QFloat x;
+    QFloat y;
+    bool* arr_1;
+    bool* arr_2;
+    if (base_1_ == 2) {
+      arr_1 = StrBinToArr(operand_1_);
+      if (operand_2_ != "");
+      arr_2 = StrBinToArr(operand_2_);
+      //Chuyen 2 ve 10
+    } else
+      if (base_1_ == 10) {
+        QFloat t1(operand_1_);
+        x = t1;
+        if (operand_2_ != "") {
+          QFloat t2(operand_2_);
+          y = t2;
+        }
+      }
+    if (op_ == "") { //Chuyen co so
+      if (base_2_ == 10)
+        return x.PrintQFloat();
+      else
+        return ArrBinToStr(x.DecToBin(x));
+  }*/
+  return "";
 }
 
 bool IsOperator(std::string o) {
@@ -165,4 +192,20 @@ int StrToInt(std::string s) {
     j *= 10;
   }
   return res;
+}
+
+void XuLiCMD(int argc, char* argv[]) {
+  if (argc == 4) {
+    std::string file_1(argv[1]);
+    std::string file_2(argv[2]);
+    std::string type(argv[3]);
+    FileManip x;
+    if (type == "1")
+      type = "int";
+    else
+      type = "float";
+    x.Manip(file_1, file_2, type);
+    std::cout << "Done!";
+  } else if (argc > 1 && argc < 4)
+    cout << "Thieu tham so";
 }

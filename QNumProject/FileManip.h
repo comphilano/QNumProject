@@ -4,9 +4,9 @@
 class FileManip {
 public:
   FileManip();
-  void Set(std::string type, int base_1, int base_2, std::string operand_1, std::string op, std::string operand_2);
+  std::string Calc(std::string type, int base_1, int base_2, std::string operand_1, std::string op, std::string operand_2);
   //Xu li file
-  void Manip(std::string, std::string, std::string);
+  void Manip(std::string source, std::string des, std::string type);
   //Tinh toan
   std::string Process();
 private:
@@ -20,7 +20,6 @@ private:
   std::string operand_1_;
   std::string op_;
   std::string operand_2_;
-  std::string result_;
 };
 //Chuyen string thanh int
 int StrToInt(std::string);
@@ -30,3 +29,5 @@ bool IsOperator(std::string);
 bool* StrBinToArr(std::string);
 //Chuyen mang bit thanh chuoi bit
 std::string ArrBinToStr(bool*);
+//Xu li tham so dong lenh
+void XuLiCMD(int argc, char* argv[]);
