@@ -3,20 +3,13 @@
 #include "Menu.h"
 #include <Windows.h>
 #include<conio.h>
-void main()
+#include "FileManip.h"
+
+void main(int argc, char* argv[])
 {
-	Menu m;
-	m.HomeScreen();
-	cout << "Nhan Enter de ket thuc." << endl;
-	//QInt a;
-	//a.ScanQInt();
-	//for (int i = 127; i >= 0; i--)
-	//{
-	//	cout << a.getBit(i);
-	//	if (i % 32 == 0)
-	//	{
-	//		cout << "\n";
-	//	}
-	//}
-	_getch();
+  XuLiCMD(argc, argv);
+  FileManip x;
+  x.Manip("d:\\alo2.txt", "d:\\nac2.txt", "float");
+  QFloat z("0.1");
+  cout << z.PrintQFloat();
 }
