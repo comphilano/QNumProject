@@ -112,6 +112,7 @@ string QFloat::DoubleString(string a)
 
 void QFloat::ScanQFloat()
 {
+	int lamtron = 0;
 	int am = 0;
 	string x;
 	cout << "Nhap so: ";
@@ -178,10 +179,10 @@ void QFloat::ScanQFloat()
 			}
 			j--;
 		}
-		//if (j == -1)
-		//{
-		//	setBit(1, 0);
-		//}
+		if (j == -1)
+		{
+			lamtron = 1;
+		}
 		QInt exp(16383 - dodoi);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -236,10 +237,10 @@ void QFloat::ScanQFloat()
 			}
 			j--;
 		}
-		//if (j == -1)
-		//{
-		//	setBit(1, 0);
-		//}
+		if (j == -1)
+		{
+			lamtron = 1;
+		}
 		QInt exp(tam + 16383);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -257,7 +258,22 @@ void QFloat::ScanQFloat()
 			setBit(0, 127);
 		}
 	}
-
+	if (lamtron == 1)
+	{
+		for (int j = 0; j < 128; j++)
+		{
+			int bit = this->getBit(j);
+			if (bit == 1)
+			{
+				setBit(0, j);
+			}
+			else
+			{
+				setBit(1, j);
+				break;
+			}
+		}
+	}
 }
 
 //Hàm chuẩn hóa chuỗi
@@ -316,6 +332,28 @@ QFloat QFloat::BinToDec(bool* bit)
 			setBit(0, i);
 		}
 	}
+	//Làm tròn
+	string num = PrintQFloat();
+	string thuc;
+	string nguyen;
+	ChiaChuoi(num, nguyen, thuc);
+	if (thuc.length() == 21)// trường hợp max số làm tròn
+	{
+		for (int j = 0; j < 128; j++)
+		{
+			int bit = this->getBit(j);
+			if (bit == 1)
+			{
+				setBit(0, j);
+			}
+			else
+			{
+				setBit(1, j);
+				break;
+			}
+		}
+	}
+	//////////
 	return *this;
 }
 //Hàm chuyển đổi hệ 10 sang 2
@@ -372,8 +410,12 @@ string QFloat::PrintQFloat()
 	}
 
 	string ktExp, ktSign;
-
-	ktSign = ktSign + bit[0];
+	//Signf
+	for (int i = 16; i < 128; i++)
+	{
+		ktSign = ktSign + bit[i];
+	}
+	//exp
 	for (int i = 1; i <= 15; i++)
 	{
 		ktExp = ktExp + bit[i];
@@ -383,13 +425,13 @@ string QFloat::PrintQFloat()
 		return "0.0";
 	else
 		if (Denormalized(ktSign, ktExp) == 1)
-			return "Denormalized";
+			return "denormalized";
 		else
 			if (Infinity(ktSign, ktExp) == 1)
-				return "Infinity";
+				return "infinity";
 			else
 				if (NotANumber(ktSign, ktExp) == 1)
-					return "Not a Number";
+					return "NaN";
 
 	int exp = 0;							// Tính số E từ exp 
 	for (int i = 15; i >= 1; i--)
@@ -481,13 +523,12 @@ string QFloat::PrintQFloat()
 	}
 
 	ans = ans + '.';				// Kết quả cuối
-	while (tongPhanThuc.length() > 15) // Lấy 15 số sau dấu phẩy
+	while (tongPhanThuc.length() > 20) // Lấy 20 số sau dấu phẩy
 	{
 		tongPhanThuc.pop_back();
 	}
 	ans = ans + tongPhanThuc;
-	cout << ans << endl;
-
+	XoaString(ans);
 	return ans;
 }
 
@@ -585,8 +626,13 @@ string QFloat::SumDecimal(string a, string b)
 
 int QFloat::ZeroNumber(string sign, string exp)
 {
-	if (sign[0] != '0')
-		return 0;
+	for (int i = 0; i < sign.length(); i++)
+	{
+		if (sign[i] != '0')
+		{
+			return 0;
+		}
+	}
 	for (int i = 0; i < exp.length(); i++)
 	{
 		if (exp[i] != '0')
@@ -597,21 +643,35 @@ int QFloat::ZeroNumber(string sign, string exp)
 
 int QFloat::Denormalized(string sign, string exp)
 {
-	if (sign[0] == '0')
-		return 0;
+	int dk1 = 1;
 	for (int i = 0; i < exp.length(); i++)
 	{
 		if (exp[i] != '0')
-			return 0;
+		{
+			dk1 = 0;
+		}
 	}
-	return 1;
+	int dk2 = 0;
+	for (int i = 0; i < sign.length(); i++)
+	{
+		if (sign[i] == '1')
+		{
+			dk2 = 1;
+		}
+	}
+	return dk1 * dk2;
 }
 
 int QFloat::Infinity(string sign, string exp)
 {
 
-	if (sign[0] == '1')
-		return 0;
+	for (int i = 0; i < sign.length(); i++)
+	{
+		if (sign[i] != '0')
+		{
+			return 0;
+		}
+	}
 	for (int i = 0; i < exp.length(); i++)
 	{
 		if (exp[i] == '0')
@@ -622,14 +682,21 @@ int QFloat::Infinity(string sign, string exp)
 
 int QFloat::NotANumber(string sign, string exp)
 {
-	if (sign[0] == '0')
-		return 0;
+	int dk1 = 0;
+	for (int i = 0; i < sign.length(); i++)
+	{
+		if (sign[i] == '1')
+		{
+			dk1 = 1;
+		}
+	}
+	int dk2 = 1;
 	for (int i = 0; i < exp.length(); i++)
 	{
 		if (exp[i] == '0')
-			return 0;
+			dk2 = 0;
 	}
-	return 1;
+	return dk1*dk2;
 }
 /////////////////////////////////
 
@@ -640,6 +707,7 @@ int QFloat::NotANumber(string sign, string exp)
 
 QFloat::QFloat(string x)
 {
+	int lamtron = 0;
 	for (int i = 127; i >= 0; i--)
 	{
 		setBit(0, i);
@@ -707,10 +775,10 @@ QFloat::QFloat(string x)
 			}
 			j--;
 		}
-		//if (j == -1)
-		//{
-		//	setBit(1, 0);
-		//}
+		if (j == -1)
+		{
+			lamtron = 1;
+		}
 		QInt exp(16383 - dodoi);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -765,10 +833,10 @@ QFloat::QFloat(string x)
 			}
 			j--;
 		}
-		//if (j == -1)
-		//{
-		//	setBit(1, 0);
-		//}
+		if (j == -1)
+		{
+			lamtron = 1;
+		}
 		QInt exp(tam + 16383);
 		int pos = 126;
 		for (int i = 14; i >= 0; i--)
@@ -786,7 +854,22 @@ QFloat::QFloat(string x)
 			setBit(0, 127);
 		}
 	}
-
+	if (lamtron == 1)
+	{
+		for (int j = 0; j < 128; j++)
+		{
+			int bit = this->getBit(j);
+			if (bit == 1)
+			{
+				setBit(0, j);
+			}
+			else
+			{
+				setBit(1, j);
+				break;
+			}
+		}
+	}
 }
 
 string QFloat::PrintBin(QFloat a)
@@ -824,26 +907,26 @@ string QFloat::LamTron()
 	string b;
 	b = PrintQFloat();
 	int vt;
-	int i = b.length() - 1;
-	for (i; i >= 0; i--)
+	string thuc;
+	string nguyen;
+	ChiaChuoi(b, nguyen, thuc);
+	int i = thuc.length() - 1;
+	for (i; i >= 5; i--)
 	{
-		if (b[i] != b[b.length() - 1])
+		if (thuc[i] != thuc[thuc.length() - 1])
 		{
 			break;
 		}
-	}
-	if (b[i] == '.')
-	{
-		i--;
 	}
 	QFloat c = *this;
 	string b1;
 	for (int j = 0; j < 128; j++)
 	{
 		c.setBit(1, j);
-
 		b1 = c.PrintQFloat();
-		if (b1[i] != b[i])
+		string thuc2;
+		ChiaChuoi(b1, nguyen, thuc2);
+		if ((thuc2[i] > thuc[i]) || (thuc2[i] == '0' && thuc[i] == '9'))
 		{
 			break;
 		}
@@ -853,5 +936,25 @@ string QFloat::LamTron()
 		}
 	}
 	b1 = c.PrintQFloat();
+	for (int i = 127; i >= 0; i--)
+	{
+		cout << c.getBit(i);
+		if (i % 32 == 0)
+		{
+			cout << "\n";
+		}
+	}
 	return b1;
+}
+
+void QFloat::XoaString(string& a)
+{
+	if (a[a.length() - 1] == '0' && a[a.length() - 2] == '.')
+	{
+		return;
+	}
+	while (a[a.length() - 1] == '0')
+	{
+		a.erase(a.begin() + a.length() - 1);
+	}
 }

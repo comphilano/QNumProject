@@ -52,6 +52,7 @@ public:
 
 	//Hàm làm tròn số
 	string LamTron();
+	void XoaString(string& a);
 };
 
 

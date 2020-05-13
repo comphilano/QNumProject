@@ -878,7 +878,7 @@ void Menu::ChuyenDoiQFloat()
 	}
 	if (coso2 == 10)
 	{
-		x1.PrintQFloat();
+		cout << x1.PrintQFloat();
 	}
 }
 
